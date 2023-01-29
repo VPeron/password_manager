@@ -7,10 +7,11 @@ from db_conn import SQLite
 
 DB_PATH = Path("enpasman.db")
 
+# setup first use - refactor with packaging
 # create users table if it doesnt exits
 pre_query_users = '''CREATE TABLE IF NOT EXISTS users
             (user_id INTEGER PRIMARY KEY, username text UNIQUE, password BLOB)'''
-# create schedule table if it doesnt exits
+# create accounts table if it doesnt exits
 pre_query_accounts = '''CREATE TABLE IF NOT EXISTS accounts
         (id INTEGER PRIMARY KEY, 
         url text UNIQUE, 

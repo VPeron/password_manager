@@ -10,8 +10,11 @@ see https://en.wikipedia.org/wiki/En_passant
 Status:
 The bare minimum functionally is operational.
 argparse cli application should be properly implemented - #TODO crosscheck RP format and possible improvements
+
 The Users table, in the database, is set with hashed passwords using SHA256.
+
 The account names and urls are being saved in plain text. Passwords are encrypted with Fernet.
+
 The decryption key for the accounts is master-password derived using the same
 algorithm from users flow (hash.sha256), however here a salt is implement with the PBKDF2HMAC class from
 the cryptography library.
