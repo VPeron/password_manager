@@ -4,7 +4,7 @@
 
 A simple linux cli password manager that supports multiple user accounts.
 
-- The name may be derived from french term used in chess - 'En Passant'
+- The name may be derived from the french term used in chess - 'En Passant'
 see https://en.wikipedia.org/wiki/En_passant
 
 Status:
@@ -18,14 +18,15 @@ the cryptography library.
 
 Current Issues:
 - need to implement real salt - os module?
+- sanitize sql queries properly
 
-## TODO add tests and logs
-## TODO prep for packaging, package
-## TODO improve display
-## TODO move password input directly into hashing function
-## TODO improve hashing function
-## TODO enforce strong password
-## TODO try a streamlit version?
-## TODO track passwords age
-## TODO implement periodic back up of database file
-## TODO add password generator
+##TODO add tests and logs
+##TODO prep for packaging, package
+##TODO improve display
+##TODO move password input directly into hashing function
+##TODO improve hashing function
+##TODO enforce strong password
+##TODO try a streamlit version?
+##TODO track passwords age
+##TODO implement periodic back up of database file
+##TODO add password generator
