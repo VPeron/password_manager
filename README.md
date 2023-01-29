@@ -20,13 +20,13 @@ Current Issues:
 - need to implement real salt - os module?
 - sanitize sql queries properly
 
-##TODO add tests and logs
-##TODO prep for packaging, package
-##TODO improve display
-##TODO move password input directly into hashing function
-##TODO improve hashing function
-##TODO enforce strong password
-##TODO try a streamlit version?
-##TODO track passwords age
-##TODO implement periodic back up of database file
-##TODO add password generator
+##TODO add tests and logs\n
+##TODO prep for packaging, package\n
+##TODO improve display\n
+##TODO move password input directly into hashing function\n
+##TODO improve hashing function\n
+##TODO enforce strong password\n
+##TODO try a streamlit version?\n
+##TODO track passwords age\n
+##TODO implement periodic back up of database file\n
+##TODO add password generator\n
