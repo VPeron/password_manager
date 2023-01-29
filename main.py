@@ -50,6 +50,7 @@ def decrypt_data(encrypted_data, password):
     return decrypted_data.decode()
 
 def display_entry(url, password, account_name):
+    # display a single entry as a table
     display_table = PrettyTable(['Url', 'Password', 'Account Name'])
     display_table.add_row([url, password, account_name])
     print(display_table)
@@ -58,7 +59,7 @@ def main():
     main_session = PassSession(user_session.username, user_session.user_id)
     main_session.get_all_account_names()
     print(f"Hi {user_session.username}!")
-    #TODO view all accounts
+    #TODO view all account names for logged in user
     print([i[1] for i in main_session.accounts])
 
     while True:

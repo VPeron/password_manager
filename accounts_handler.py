@@ -7,22 +7,22 @@ from db_conn import SQLite
 DB_PATH = Path("enpasman.db")
 
 class PassSession:
-    # handles CRUD OP and general AUTH for a user session
+    # handles operations and general AUTH system for a user session
     def __init__(self, user_session, user_id) -> None:
         self.user_session = user_session
         self.user_id = user_id
         
     def add_entry(self, url, hashed_pass, account_name):
         # add entry to the database
-        #TODO sanitize input
+        #TODO sanitize sql input
         add_query = "INSERT INTO accounts (url, hashedpass, account_name, user_id) VALUES (?,?,?,?)"
         with SQLite(DB_PATH) as db:
             db.cursor.execute(add_query, (url, hashed_pass, account_name, self.user_id))
             db.connection.commit()
     
     def view_entry(self, account_name):
-        # fetch passwords by account name
-        #TODO sanitize input
+        # fetch account_name & password by account name & user_id
+        #TODO sanitize sql input
         view_query = "SELECT url, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
         with SQLite(DB_PATH) as db:
             db.cursor.execute(view_query, (account_name, self.user_id))
@@ -30,7 +30,7 @@ class PassSession:
     
     def edit_entry(self, new_hashedpass, account_name):
         # edit entry
-        #TODO sanitize input
+        #TODO sanitize sql input
         confirm = input('Mark Entry Complete (Y/n): ')
         if confirm == 'Y':
             edit_query = "UPDATE accounts SET hashedpass = ? WHERE account_name = ? AND user_id = ?"
@@ -40,7 +40,7 @@ class PassSession:
     
     def delete_entry(self, account_name):
         # delete entry
-        #TODO sanitize input
+        #TODO sanitize sql input
         confirm = input('Delete Entry (Y/n): ')
         if confirm == 'Y':
             delete_query = "DELETE from accounts WHERE account_name = ? AND user_id = ?"

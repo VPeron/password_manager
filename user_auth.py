@@ -45,7 +45,7 @@ class UserAuth:
                 # hash password
                 password_hash = hashlib.sha256(self.password).hexdigest()
                 # add username and hash_password to db
-                db.cursor.execute(query, (self.username, password_hash)) # sqlite3.Binary(password_hash)
+                db.cursor.execute(query, (self.username, password_hash))
                 db.connection.commit()
         else:
             print('try a different username')
