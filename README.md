@@ -26,12 +26,6 @@ Current Issues:
 
 ##TODO improve display
 
-##TODO move password input directly into hashing function
-
-##TODO improve hashing function
-
-##TODO enforce strong password
-
 ##TODO try a streamlit version?
 
 ##TODO track passwords age
