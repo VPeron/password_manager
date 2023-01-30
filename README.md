@@ -36,7 +36,6 @@ the cryptography library.
 
 ### Current Issues:
 
-- need to implement real salt on hashing algorithm - maybe os module
 - sanitize sql queries properly
 
 ### Pipelined implementations:
