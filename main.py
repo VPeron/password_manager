@@ -79,8 +79,11 @@ def main():
             print('New Entry Created.')
         # Edit
         elif menu.lower() == "e":
-            main_session.edit_entry(input('Account Name: '))
-            print('Edit Completed.')
+            account_name = input('Account Name to edit: ')
+            if account_name in [i[1] for i in main_session.accounts]:
+                encrypted_password = encrypt_data(getpass('New Password: ').encode(), user_session.password)
+                main_session.edit_entry(encrypted_password, account_name)
+                print('Edit Completed.')
         # Delete
         elif menu.lower() == "d":
             main_session.delete_entry(input("Account Name: "))
