@@ -1,11 +1,8 @@
-#from datetime import datetime, timedelta
 import argparse
-from pathlib import Path
 from getpass import getpass
+import base64
 
 from prettytable import PrettyTable
-
-import base64
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -15,8 +12,6 @@ from user_auth import UserAuth
 from accounts_handler import PassSession
 
 
-
-DB_PATH = Path("enpasman.db")
 
 # Cryptography helper functions
 def encrypt_data(data, password):

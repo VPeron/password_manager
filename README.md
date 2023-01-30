@@ -1,13 +1,11 @@
-# EnPasMan
-
-### En Password Manager
+### Password Manager
+Disclaimer: This program is for personal entertainment only and is in many ways,
+shapes and forms insecure and underperformant.
 
 A simple linux cli password manager that supports multiple user accounts.
 
-- The name may be derived from the french term used in chess - 'En Passant'
-see https://en.wikipedia.org/wiki/En_passant
+# Status:
 
-Status:
 The bare minimum functionally is operational.
 argparse cli application should be properly implemented - #TODO crosscheck RP format and possible improvements
 
@@ -19,9 +17,12 @@ The encryption and decryption key for the accounts are master-password derived u
 algorithm from users flow (hash.sha256), however here a salt is implement with the PBKDF2HMAC class from
 the cryptography library.
 
-Current Issues:
-- need to implement real salt on hashing algorithm - os module?
+# Current Issues:
+
+- need to implement real salt on hashing algorithm - maybe os module
 - sanitize sql queries properly
+
+# Pipelined implementations:
 
 ##TODO add tests and logs
 
