@@ -1,5 +1,6 @@
 import hashlib
 from pathlib import Path
+import os
 
 from db_conn import SQLite
 
@@ -10,7 +11,7 @@ DB_PATH = Path("enpasman.db")
 # setup first use - refactor with packaging
 # create users table if it doesnt exits
 pre_query_users = '''CREATE TABLE IF NOT EXISTS users
-            (user_id INTEGER PRIMARY KEY, username text UNIQUE, password BLOB)'''
+            (user_id INTEGER PRIMARY KEY, username text UNIQUE, password BLOB, salt_token BLOB)'''
 # create accounts table if it doesnt exits
 pre_query_accounts = '''CREATE TABLE IF NOT EXISTS accounts
         (id INTEGER PRIMARY KEY, 
@@ -30,6 +31,7 @@ class UserAuth:
     def __init__(self, username, password) -> None:
         self.username = username
         self.password = password.encode()
+        
 
     def register(self):
         # check if username is unique
@@ -40,13 +42,14 @@ class UserAuth:
             result = db.cursor.fetchone()
         if not result:
             # username is unique in db
-            query = "INSERT INTO users (username, password) VALUES (?,?)"
+            self.salt_token = os.urandom(16)
+            query = "INSERT INTO users (username, password, salt_token) VALUES (?,?,?)"
             # custom db connection context manager
             with SQLite(DB_PATH) as db:
                 # hash password
                 password_hash = hashlib.sha256(self.password).hexdigest()
                 # add username and hash_password to db
-                db.cursor.execute(query, (self.username, password_hash))
+                db.cursor.execute(query, (self.username, password_hash, self.salt_token))
                 db.connection.commit()
         else:
             print('try a different username')
@@ -68,3 +71,10 @@ class UserAuth:
             else:
                 print('invalid username or password')
         return False
+    
+    def get_salt_token(self):
+        query = "SELECT salt_token FROM users WHERE user_id = ?"
+        with SQLite(DB_PATH) as db:
+            db.cursor.execute(query, (self.user_id,))
+            salt_token = db.cursor.fetchone()
+        return salt_token[0]

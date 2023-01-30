@@ -14,12 +14,12 @@ from accounts_handler import PassSession
 
 
 # Cryptography helper functions
-def encrypt_data(data, password):
+def encrypt_data(data, password, salt_token):
     # Derive encryption key from password
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256,
         length=32,
-        salt=b'salt_value',
+        salt=salt_token,
         iterations=300000,
         backend=default_backend()
     )
@@ -29,12 +29,12 @@ def encrypt_data(data, password):
     encrypted_data = cipher.encrypt(data)
     return encrypted_data
 
-def decrypt_data(encrypted_data, password):
+def decrypt_data(encrypted_data, password, salt_token):
     # Derive encryption key from password
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256,
         length=32,
-        salt=b'salt_value',
+        salt=salt_token,
         iterations=300000,
         backend=default_backend()
     )
@@ -54,6 +54,8 @@ def main():
     main_session = PassSession(user_session.username, user_session.user_id)
     main_session.get_all_account_names()
     print(f"Hi {user_session.username}!")
+    # get user salt
+    salt_token = user_session.get_salt_token()
     #TODO view all account names for logged in user
     print([i[1] for i in main_session.accounts])
 
@@ -65,7 +67,7 @@ def main():
             account_name = input("Account Name: ")
             try:
                 url, hashed_pass, fetched_account_name = main_session.view_entry(account_name)
-                decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password)
+                decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
                 display_entry(url, decrypted_pass, fetched_account_name)
             except TypeError:
                 print('Account name not found.')  
@@ -74,16 +76,18 @@ def main():
             new_url = input('Url: ')
             new_password = getpass('Password: ').encode()
             new_account_name = input('Account Name: ')
-            encrypted_password = encrypt_data(new_password, user_session.password)
+            encrypted_password = encrypt_data(new_password, user_session.password, salt_token)
             main_session.add_entry(new_url, encrypted_password.decode(), new_account_name)
             print('New Entry Created.')
         # Edit
         elif menu.lower() == "e":
             account_name = input('Account Name to edit: ')
             if account_name in [i[1] for i in main_session.accounts]:
-                encrypted_password = encrypt_data(getpass('New Password: ').encode(), user_session.password)
+                encrypted_password = encrypt_data(getpass('New Password: ').encode(), user_session.password, salt_token)
                 main_session.edit_entry(encrypted_password, account_name)
                 print('Edit Completed.')
+            else:
+                print('Account name not found.')
         # Delete
         elif menu.lower() == "d":
             main_session.delete_entry(input("Account Name: "))
