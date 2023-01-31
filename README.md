@@ -7,9 +7,11 @@ A simple linux cli password manager that supports multiple user accounts.
 
 ### FEATURES
 
+- Register and login multiple users
 - Uses Python cryptography library to encrypt stored passwords
-- Uses SQLite3 database for storage
-- Saves URL, username, and password for each account.
+- Uses SQLite3 database for persistency, maybe this will scale to posgres
+- Saves a URL, username, and password for each account
+- View, Edit and Delete functionalities
 
 ### Requirements
 
@@ -19,8 +21,8 @@ A simple linux cli password manager that supports multiple user accounts.
 
 ### Usage
 
-- To register as a user: python main.py -r
-- To login as a user: python main.py -l
+- To register as a user: python3 main.py -r
+- To login as a user: python3 main.py -l
 
 Follow the prompt to add, view, update, or delete an account.
 
@@ -29,9 +31,9 @@ Follow the prompt to add, view, update, or delete an account.
 - The bare minimum functionally is operational.
 argparse cli application should be properly implemented - #TODO crosscheck RP format and possible improvements
 - The users table, in the database, is setup with hashed* passwords using SHA256.
-- The account names and urls are being saved in plain text. Passwords are encrypted with Fernet.
+- In Accounts, the account names and urls are being saved in plain text. Passwords are encrypted with Fernet.
 - The encryption and decryption key for the accounts are master-password derived using the same
-algorithm from users flow (hash.sha256), however here a salt is implement with the PBKDF2HMAC class from
+algorithm from users flow (hash.sha256), however here a salt is implement with the PBKDF2HMAC class still from
 the cryptography library.
 
 ### Current Issues:

@@ -57,6 +57,7 @@ def main():
     # get user salt
     salt_token = user_session.get_salt_token()
     #TODO view all account names for logged in user
+    print('Saved accounts')
     print([i[1] for i in main_session.accounts])
 
     while True:
