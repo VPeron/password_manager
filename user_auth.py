@@ -15,9 +15,9 @@ pre_query_users = '''CREATE TABLE IF NOT EXISTS users
 # create accounts table if it doesnt exits
 pre_query_accounts = '''CREATE TABLE IF NOT EXISTS accounts
         (id INTEGER PRIMARY KEY, 
-        url text UNIQUE, 
+        url text, 
         hashedpass BLOB,
-        account_name text UNIQUE,
+        account_name text,
         user_id INTEGER,
         FOREIGN KEY (user_id) 
             REFERENCES users (user_id)
