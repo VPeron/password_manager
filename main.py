@@ -110,7 +110,7 @@ if __name__ == '__main__':
                         help = "Register a user for the Password Manager.")
     parser.add_argument("-l", "--login", type = str, nargs = '*',
                         metavar = "str", default = None,
-                        help = "Login to the Task Manager.")
+                        help = "Login to the Password Manager.")
     # parse the arguments from standard input
     args = parser.parse_args()
     user_session = UserAuth(input('Username: '), getpass('Password: '))

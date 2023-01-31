@@ -36,10 +36,6 @@ argparse cli application should be properly implemented - #TODO crosscheck RP fo
 algorithm from users flow (hash.sha256), however here a salt is implement with the PBKDF2HMAC class still from
 the cryptography library.
 
-### Current Issues:
-
-- sanitize sql queries properly
-
 ### Pipelined implementations:
 
 ##TODO add tests and logs
@@ -57,3 +53,7 @@ the cryptography library.
 ##TODO add password generator
 
 ##TODO move sqlite3 to postgres
+
+### Snowball in Hell:
+
+- sanitize sql queries properly
