@@ -54,7 +54,7 @@ the cryptography library.
 
 ##TODO move sqlite3 to postgres
 
-### Snowball in Hell:
+### Snowball in Hell and Current Issues:
 
 - sanitize sql queries properly
 - search query results for account name fetches one but UNIQUE constraint must be dropped as

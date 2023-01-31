@@ -26,7 +26,7 @@ class PassSession:
         view_query = "SELECT url, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
         with SQLite(DB_PATH) as db:
             db.cursor.execute(view_query, (account_name, self.user_id))
-            return db.cursor.fetchone()
+            return db.cursor.fetchall()
     
     def edit_entry(self, new_hashedpass, account_name):
         # edit entry

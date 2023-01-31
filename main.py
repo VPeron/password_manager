@@ -44,32 +44,43 @@ def decrypt_data(encrypted_data, password, salt_token):
     decrypted_data = cipher.decrypt(encrypted_data)
     return decrypted_data.decode()
 
-def display_entry(url, password, account_name):
-    # display a single entry as a table
+def display_entry(entries):
+    # display all matching entries as a table
     display_table = PrettyTable(['Url', 'Password', 'Account Name'])
-    display_table.add_row([url, password, account_name])
+    for entry in entries:
+        display_table.add_row(entry)
     print(display_table)
 
 def main():
     main_session = PassSession(user_session.username, user_session.user_id)
-    main_session.get_all_account_names()
-    print(f"Hi {user_session.username}!")
     # get user salt
     salt_token = user_session.get_salt_token()
+    main_session.get_all_account_names()
+    print(f"Hi {user_session.username}!")
+    
     #TODO view all account names for logged in user
     print('Saved accounts')
-    print([i[1] for i in main_session.accounts])
+    session_accounts = [i[1] for i in main_session.accounts]
+    print(session_accounts)
 
     while True:
         #TODO sanitize all inputs before querying sql
-        menu = input("[V]iew\n[A]dd\n[E]dit\n[D]elete\n[Q]uit\n-> ")
+        menu = input("[V]iew\n[A]dd\n[e]dit\n[D]elete\n[Q]uit\n-> ")
         # View
         if menu.lower() == "v":
             account_name = input("Account Name: ")
             try:
-                url, hashed_pass, fetched_account_name = main_session.view_entry(account_name)
-                decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
-                display_entry(url, decrypted_pass, fetched_account_name)
+                results = main_session.view_entry(account_name)
+                if len(results) == 0:
+                    print('No entries found')
+                    continue
+                # collect entries to be dsplayed
+                entries = []
+                for index, result in enumerate(results):
+                    url, hashed_pass, fetched_account_name = results[index]
+                    decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
+                    entries.append((url, decrypted_pass, fetched_account_name))
+                display_entry(entries)
             except TypeError:
                 print('Account name not found.')  
         # Add
@@ -77,8 +88,12 @@ def main():
             new_url = input('Url: ')
             new_password = getpass('Password: ').encode()
             new_account_name = input('Account Name: ')
+            if new_account_name in session_accounts:
+                print('This Account name already exists')
+                continue
             encrypted_password = encrypt_data(new_password, user_session.password, salt_token)
             main_session.add_entry(new_url, encrypted_password.decode(), new_account_name)
+            session_accounts.append(new_account_name)   
             print('New Entry Created.')
         # Edit
         elif menu.lower() == "e":
