@@ -31,7 +31,7 @@ class PassSession:
     def edit_entry(self, new_hashedpass, account_name):
         # edit entry
         #TODO sanitize sql input
-        confirm = input('Mark Entry Complete (Y/n): ')
+        confirm = input('Confirm Edit: (Y/n): ')
         if confirm == 'Y':
             edit_query = "UPDATE accounts SET hashedpass = ? WHERE account_name = ? AND user_id = ?"
             with SQLite(DB_PATH) as db:

@@ -85,7 +85,7 @@ def main():
             account_name = input('Account Name to edit: ')
             if account_name in [i[1] for i in main_session.accounts]:
                 encrypted_password = encrypt_data(getpass('New Password: ').encode(), user_session.password, salt_token)
-                main_session.edit_entry(encrypted_password, account_name)
+                main_session.edit_entry(encrypted_password.decode(), account_name)
                 print('Edit Completed.')
             else:
                 print('Account name not found.')
