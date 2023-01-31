@@ -47,7 +47,6 @@ def decrypt_data(encrypted_data:bytes, password:bytes, salt_token:bytes):
 def display_entry(entries:list):
     # display all matching entries as a table
     display_table = PrettyTable(['Url', 'Password', 'Account Name'])
-    
     display_table.add_row(entries)
     print(display_table)
 
@@ -75,8 +74,7 @@ def main():
                 if len(results) == 0:
                     print('No entries found')
                     continue
-                # collect entries to be dsplayed
-                
+                # collect entry to be dsplayed
                 url, hashed_pass, fetched_account_name = results
                 decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
                 
