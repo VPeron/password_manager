@@ -14,7 +14,7 @@ from accounts_handler import PassSession
 
 
 # Cryptography helper functions
-def encrypt_data(data, password, salt_token):
+def encrypt_data(data:str, password:bytes, salt_token:bytes):
     # Derive encryption key from password
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256,
@@ -29,7 +29,7 @@ def encrypt_data(data, password, salt_token):
     encrypted_data = cipher.encrypt(data)
     return encrypted_data
 
-def decrypt_data(encrypted_data, password, salt_token):
+def decrypt_data(encrypted_data:bytes, password:bytes, salt_token:bytes):
     # Derive encryption key from password
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256,
@@ -44,24 +44,25 @@ def decrypt_data(encrypted_data, password, salt_token):
     decrypted_data = cipher.decrypt(encrypted_data)
     return decrypted_data.decode()
 
-def display_entry(entries):
+def display_entry(entries:list):
     # display all matching entries as a table
     display_table = PrettyTable(['Url', 'Password', 'Account Name'])
-    for entry in entries:
-        display_table.add_row(entry)
+    
+    display_table.add_row(entries)
     print(display_table)
 
 def main():
     main_session = PassSession(user_session.username, user_session.user_id)
     # get user salt
     salt_token = user_session.get_salt_token()
+    print(f"\nHi {user_session.username.capitalize()}!\n")
+    # retrieve user existing account names
+    # get_all_account_names() triggers self.accounts to be created
     main_session.get_all_account_names()
-    print(f"Hi {user_session.username}!")
-    
-    #TODO view all account names for logged in user
+    # session_accounts will help ensure unique account names
+    session_accounts = list(main_session.accounts.values())
     print('Saved accounts')
-    session_accounts = [i[1] for i in main_session.accounts]
-    print(session_accounts)
+    print(main_session.accounts)
 
     while True:
         #TODO sanitize all inputs before querying sql
@@ -75,12 +76,11 @@ def main():
                     print('No entries found')
                     continue
                 # collect entries to be dsplayed
-                entries = []
-                for index, result in enumerate(results):
-                    url, hashed_pass, fetched_account_name = results[index]
-                    decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
-                    entries.append((url, decrypted_pass, fetched_account_name))
-                display_entry(entries)
+                
+                url, hashed_pass, fetched_account_name = results
+                decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
+                
+                display_entry((url, decrypted_pass, fetched_account_name))
             except TypeError:
                 print('Account name not found.')  
         # Add
@@ -88,17 +88,19 @@ def main():
             new_url = input('Url: ')
             new_password = getpass('Password: ').encode()
             new_account_name = input('Account Name: ')
+            # enforce unique account names
             if new_account_name in session_accounts:
                 print('This Account name already exists')
                 continue
             encrypted_password = encrypt_data(new_password, user_session.password, salt_token)
             main_session.add_entry(new_url, encrypted_password.decode(), new_account_name)
-            session_accounts.append(new_account_name)   
+            # update sessions accounts* - more elegant way?
+            session_accounts.append(new_account_name)
             print('New Entry Created.')
         # Edit
         elif menu.lower() == "e":
             account_name = input('Account Name to edit: ')
-            if account_name in [i[1] for i in main_session.accounts]:
+            if account_name in session_accounts:
                 encrypted_password = encrypt_data(getpass('New Password: ').encode(), user_session.password, salt_token)
                 main_session.edit_entry(encrypted_password.decode(), account_name)
                 print('Edit Completed.')
