@@ -55,6 +55,8 @@ the cryptography library.
 
 ##TODO move sqlite3 to postgres
 
+##TODO implement utils module - crypt functions, display functions
+
 ##TODO implement a salt per account password rather than user salt_token 
 
 #### Tests

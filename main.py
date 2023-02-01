@@ -11,6 +11,7 @@ from cryptography.fernet import Fernet
 
 from user_auth import UserAuth
 from accounts_handler import PassSession
+from modules.ascii_art import get_ascii_art
 
 
 
@@ -70,7 +71,7 @@ def main():
     while True:
         input('Press Enter to Continue')
         os.system('clear')
-        print(f'Login: {user_session.username}')
+        print(f'User: {user_session.username}')
         print('Saved accounts:')
         print(user_accounts)
         menu = input("\n[V]iew\n[A]dd\n[e]dit\n[D]elete\n[Q]uit\n-> ")
@@ -140,6 +141,8 @@ if __name__ == '__main__':
                         help = "Login to the Password Manager.")
     # parse the arguments from standard input
     args = parser.parse_args()
+    os.system('clear')
+    get_ascii_art()
     user_session = UserAuth(input('Username: '), getpass('Password: '))
     if args.register != None: 
         user_session.register()

@@ -34,13 +34,13 @@ class UserAuth:
     
     def validate_credentials(self):
         # validate credentials criteria
-        if 3 < len(self.username) < 32 and 8 < len(self.password) < 64:
+        if 3 < len(self.username) < 32 and 7 < len(self.password) < 64:
             return True
         return False
 
     def register(self):
         if not self.validate_credentials():
-            print('Username must be at least 3 characters long.\nPasswords must be at least 8 characters long.')
+            print('Username must be at least 4 characters long.\nPasswords must be at least 8 characters long.')
             print('Try again')
             return
         # check if username is unique
