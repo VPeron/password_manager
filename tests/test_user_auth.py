@@ -19,8 +19,3 @@ class TestUserAuth(unittest.TestCase):
         
 if __name__ == "__main__":
     unittest.main()
-    
-    #TODO test unique username error
-    #TODO test salt encoding
-    #TODO setup tests database
-    #TODO setup teardown

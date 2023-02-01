@@ -1,9 +1,10 @@
 # Password Manager
 
-Disclaimer: This program is for personal entertainment only and is in many ways,
-shapes and forms insecure and underperformant.
+- A simple linux cli password manager that supports multiple user accounts.
 
-A simple linux cli password manager that supports multiple user accounts.
+Disclaimer: This program is for personal entertainment only and is in many ways,
+shapes and forms insecure and underperformant. Suggestions and discussions are most
+welcome but PRs will likely be declined as the intent is to educate myself.
 
 ### FEATURES
 
@@ -38,7 +39,7 @@ the cryptography library.
 
 ### Pipelined implementations:
 
-##TODO add tests and logs
+##TODO improve tests and add logs
 
 ##TODO prep for packaging, package
 
@@ -53,6 +54,20 @@ the cryptography library.
 ##TODO add password generator
 
 ##TODO move sqlite3 to postgres
+
+##TODO implement a salt per account password rather than user salt_token
+
+#### Tests
+
+- user_auth
+
+#TODO test unique username error
+
+#TODO test salt encoding
+
+#TODO setup tests database
+
+#TODO setup teardown
 
 ### Snowball in Hell and Current Issues:
 

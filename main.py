@@ -44,10 +44,14 @@ def decrypt_data(encrypted_data:bytes, password:bytes, salt_token:bytes):
     decrypted_data = cipher.decrypt(encrypted_data)
     return decrypted_data.decode()
 
-def display_entry(entries:list):
-    # display all matching entries as a table
-    display_table = PrettyTable(['Url', 'Password', 'Account Name'])
-    display_table.add_row(entries)
+def display_entry(columns:list, entries:list):
+    # display entries as a table
+    display_table = PrettyTable(columns)
+    if isinstance(entries[0], list):
+        for row in entries:
+            display_table.add_row(row)
+    else:
+        display_table.add_row(entries)
     print(display_table)
 
 def main():
@@ -58,9 +62,9 @@ def main():
     # retrieve user existing account names
     # get_all_account_names() triggers self.accounts to be created
     main_session.get_all_account_names()
-    # session_accounts will help ensure unique account names
-    session_accounts = list(main_session.accounts.values())
-    print('Saved accounts')
+    # user_accounts tracks unique account names during session
+    user_accounts = list(main_session.accounts.values())
+    print('Saved accounts:')
     print(main_session.accounts)
 
     while True:
@@ -77,8 +81,7 @@ def main():
                 # collect entry to be dsplayed
                 url, hashed_pass, fetched_account_name = results
                 decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
-                
-                display_entry((url, decrypted_pass, fetched_account_name))
+                display_entry(['url', 'Password', 'Account'], (url, decrypted_pass, fetched_account_name))
             except TypeError:
                 print('Account name not found.')  
         # Add
@@ -87,18 +90,19 @@ def main():
             new_password = getpass('Password: ').encode()
             new_account_name = input('Account Name: ')
             # enforce unique account names
-            if new_account_name in session_accounts:
+            if new_account_name in user_accounts:
                 print('This Account name already exists')
                 continue
             encrypted_password = encrypt_data(new_password, user_session.password, salt_token)
             main_session.add_entry(new_url, encrypted_password.decode(), new_account_name)
             # update sessions accounts* - more elegant way?
-            session_accounts.append(new_account_name)
+            user_accounts.append(new_account_name)
             print('New Entry Created.')
+            display_entry(['url', 'Account'], [new_url, new_account_name])
         # Edit
         elif menu.lower() == "e":
             account_name = input('Account Name to edit: ')
-            if account_name in session_accounts:
+            if account_name in user_accounts:
                 encrypted_password = encrypt_data(getpass('New Password: ').encode(), user_session.password, salt_token)
                 main_session.edit_entry(encrypted_password.decode(), account_name)
                 print('Edit Completed.')
