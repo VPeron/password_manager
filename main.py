@@ -12,6 +12,7 @@ from cryptography.fernet import Fernet
 from user_auth import UserAuth
 from accounts_handler import PassSession
 from modules.ascii_art import get_ascii_art
+from modules.password_generator import generate_password
 
 
 
@@ -58,10 +59,12 @@ def display_entry(columns:list, entries:list):
     print(display_table)
 
 def main():
+    # init user session
     main_session = PassSession(user_session.username, user_session.user_id)
     # get user salt
     salt_token = user_session.get_salt_token()
-    print(f"\nHi {user_session.username.capitalize()}!\n")
+    print('\nLogin Successful\nUser Accounts loaded')
+    print(f"\nUser Session: {user_session.username.capitalize()}\n")
     # retrieve user existing account names
     # get_all_account_names() triggers self.accounts to be created
     main_session.get_all_account_names()
@@ -92,7 +95,10 @@ def main():
         # Add
         elif menu.lower() == "a":
             new_url = input('Url: ')
-            new_password = getpass('Password: ').encode()
+            new_password = getpass('Password (Leave blank to auto-generate): ').encode()
+            if len(new_password) == 0:
+                # generate random password default lentgh = 12
+                new_password = generate_password(12).encode()
             new_account_name = input('Account Name: ')
             # enforce unique account names
             if new_account_name in user_accounts:
@@ -123,7 +129,7 @@ def main():
                 user_accounts.remove(del_account)
         # Quit
         elif menu.lower() == "q":
-            print("Goodbye")
+            print("\nGoodbye\n")
             break
         else:
             print("Invalid Option")
