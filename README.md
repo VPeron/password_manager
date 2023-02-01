@@ -74,3 +74,7 @@ the cryptography library.
 ### Snowball in Hell and Current Issues:
 
 - sanitize sql queries properly
+
+# Rerences
+
+- ascii art script: https://github.com/kiteco/python-youtube-code/blob/master/ascii/ascii_convert.py

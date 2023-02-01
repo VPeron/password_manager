@@ -26,8 +26,8 @@ def pixels_to_ascii(image):
     return (characters)
 
 def get_new_ascii_art(new_width=SIZE):
-    # path = input("Image path:\n")
-    path = "modules/padlock.png"
+    path = input("Image path:\n")
+    #path = "modules/padlock.png"
     try:
         image = PIL.Image.open(path)
     except:
