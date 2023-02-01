@@ -57,6 +57,8 @@ the cryptography library.
 
 ##TODO implement a salt per account password rather than user salt_token
 
+##TODO limit password to a sensible length (e.g. 1024). 
+
 #### Tests
 
 - user_auth

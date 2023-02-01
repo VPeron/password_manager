@@ -1,6 +1,7 @@
 import argparse
 from getpass import getpass
 import base64
+import os
 
 from prettytable import PrettyTable
 from cryptography.hazmat.backends import default_backend
@@ -13,14 +14,16 @@ from accounts_handler import PassSession
 
 
 
+SHA_ITERS = 500_000
+
 # Cryptography helper functions
-def encrypt_data(data:str, password:bytes, salt_token:bytes):
+def encrypt_data(data:bytes, password:bytes, salt_token:bytes):
     # Derive encryption key from password
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256,
         length=32,
         salt=salt_token,
-        iterations=300000,
+        iterations=SHA_ITERS,
         backend=default_backend()
     )
     encryption_key = base64.urlsafe_b64encode(kdf.derive(password))
@@ -35,7 +38,7 @@ def decrypt_data(encrypted_data:bytes, password:bytes, salt_token:bytes):
         algorithm=hashes.SHA256,
         length=32,
         salt=salt_token,
-        iterations=300000,
+        iterations=SHA_ITERS,
         backend=default_backend()
     )
     encryption_key = base64.urlsafe_b64encode(kdf.derive(password))
@@ -48,8 +51,7 @@ def display_entry(columns:list, entries:list):
     # display entries as a table
     display_table = PrettyTable(columns)
     if isinstance(entries[0], list):
-        for row in entries:
-            display_table.add_row(row)
+        display_table.add_rows(entries)
     else:
         display_table.add_row(entries)
     print(display_table)
@@ -64,12 +66,14 @@ def main():
     main_session.get_all_account_names()
     # user_accounts tracks unique account names during session
     user_accounts = list(main_session.accounts.values())
-    print('Saved accounts:')
-    print(main_session.accounts)
 
     while True:
-        #TODO sanitize all inputs before querying sql
-        menu = input("[V]iew\n[A]dd\n[e]dit\n[D]elete\n[Q]uit\n-> ")
+        input('Press Enter to Continue')
+        os.system('clear')
+        print(f'Login: {user_session.username}')
+        print('Saved accounts:')
+        print(user_accounts)
+        menu = input("\n[V]iew\n[A]dd\n[e]dit\n[D]elete\n[Q]uit\n-> ")
         # View
         if menu.lower() == "v":
             account_name = input("Account Name: ")
@@ -78,8 +82,8 @@ def main():
                 if len(results) == 0:
                     print('No entries found')
                     continue
-                # collect entry to be dsplayed
                 url, hashed_pass, fetched_account_name = results
+                # fetch plain text password
                 decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
                 display_entry(['url', 'Password', 'Account'], (url, decrypted_pass, fetched_account_name))
             except TypeError:
@@ -97,7 +101,7 @@ def main():
             main_session.add_entry(new_url, encrypted_password.decode(), new_account_name)
             # update sessions accounts* - more elegant way?
             user_accounts.append(new_account_name)
-            print('New Entry Created.')
+            print('\nNew Entry Created.')
             display_entry(['url', 'Account'], [new_url, new_account_name])
         # Edit
         elif menu.lower() == "e":
