@@ -31,15 +31,25 @@ class UserAuth:
     def __init__(self, username, password) -> None:
         self.username = username
         self.password = password.encode()
+    
+    def validate_credentials(self):
+        # validate credentials criteria
+        if 3 < len(self.username) < 32 and 8 < len(self.password) < 64:
+            return True
+        return False
 
     def register(self):
+        if not self.validate_credentials():
+            print('Username must be at least 3 characters long.\nPasswords must be at least 8 characters long.')
+            print('Try again')
+            return
         # check if username is unique
         username_query = """SELECT username FROM users where username = ?"""
         with SQLite(DB_PATH) as db:
             db.cursor.execute(username_query, (self.username,))
             result = db.cursor.fetchone()
         if not result:
-            # username is unique in db
+            # username is unique in db so we persist it
             self.salt_token = os.urandom(16)
             query = "INSERT INTO users (username, password, salt_token) VALUES (?,?,?)"
             # custom db connection context manager
@@ -51,7 +61,7 @@ class UserAuth:
                 db.connection.commit()
         else:
             print('try a different username')
-            exit()
+            return
  
     def login(self):
         query = "SELECT password, user_id FROM users WHERE username = ?"

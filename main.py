@@ -114,8 +114,12 @@ def main():
                 print('Account name not found.')
         # Delete
         elif menu.lower() == "d":
-            main_session.delete_entry(input("Account Name: "))
-            print('Account Deleted.')
+            del_account = input("Account Name: ")
+            if del_account in user_accounts:
+                main_session.delete_entry(del_account)
+                print('Account Deleted.')
+                # update user's accounts
+                user_accounts.remove(del_account)
         # Quit
         elif menu.lower() == "q":
             print("Goodbye")

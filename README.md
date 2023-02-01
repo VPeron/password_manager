@@ -55,9 +55,7 @@ the cryptography library.
 
 ##TODO move sqlite3 to postgres
 
-##TODO implement a salt per account password rather than user salt_token
-
-##TODO limit password to a sensible length (e.g. 1024). 
+##TODO implement a salt per account password rather than user salt_token 
 
 #### Tests
 
