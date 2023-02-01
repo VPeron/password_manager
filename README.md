@@ -57,5 +57,3 @@ the cryptography library.
 ### Snowball in Hell and Current Issues:
 
 - sanitize sql queries properly
-- search query results for account name fetches one but UNIQUE constraint must be dropped as
-multiple users may have an account for the same website.

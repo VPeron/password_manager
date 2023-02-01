@@ -34,7 +34,6 @@ class UserAuth:
 
     def register(self):
         # check if username is unique
-        #TODO first run will break as users table does not exist yet
         username_query = """SELECT username FROM users where username = ?"""
         with SQLite(DB_PATH) as db:
             db.cursor.execute(username_query, (self.username,))

@@ -58,4 +58,3 @@ class PassSession:
         for item in accounts:
             self.accounts[item[0]] = item[1]
         return self.accounts
-        # make a dictionary with url, account_name
