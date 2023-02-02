@@ -74,6 +74,7 @@ def main():
     while True:
         input('Press Enter to Continue')
         os.system('clear')
+        main_session.get_all_account_names()
         print(f'User: {user_session.username}')
         print('Saved accounts:')
         print(user_accounts)
@@ -114,11 +115,15 @@ def main():
         elif menu.lower() == "e":
             account_name = input('Account Name to edit: ')
             if account_name in user_accounts:
-                encrypted_password = encrypt_data(getpass('New Password: ').encode(), user_session.password, salt_token)
+                new_password = getpass('New Password (Leave blank to auto-generate): ').encode()
+                if len(new_password) == 0:
+                    # generate random password default lentgh = 12
+                    new_password = generate_password(12).encode()
+                encrypted_password = encrypt_data(new_password, user_session.password, salt_token)
                 main_session.edit_entry(encrypted_password.decode(), account_name)
                 print('Edit Completed.')
             else:
-                print('Account name not found.')
+                print('Account name not found')
         # Delete
         elif menu.lower() == "d":
             del_account = input("Account Name: ")
@@ -129,7 +134,7 @@ def main():
                 user_accounts.remove(del_account)
         # Quit
         elif menu.lower() == "q":
-            print("\nGoodbye\n")
+            print("\n  Goodbye\n")
             break
         else:
             print("Invalid Option")

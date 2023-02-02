@@ -63,10 +63,6 @@ the cryptography library.
 
 - user_auth
 
-#TODO test unique username error
-
-#TODO test salt encoding
-
 #TODO setup tests database
 
 #TODO setup teardown
@@ -74,6 +70,8 @@ the cryptography library.
 ### Snowball in Hell and Current Issues:
 
 - sanitize sql queries properly
+
+- fix test_accounts_handler.py: tests dont run sequentially, something is buggy.
 
 # Rerences
 
