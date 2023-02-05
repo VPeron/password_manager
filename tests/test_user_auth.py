@@ -19,7 +19,7 @@ class TestUserAuth(unittest.TestCase):
     def test_get_salt_token(self):
         salt_token = self.test_user.get_salt_token()
         self.assertIsInstance(salt_token, bytes)
-        
+ 
     def tearDown(self):
         query = "DELETE FROM users WHERE username = 'test_user'"
         with SQLite(DB_PATH) as db:
