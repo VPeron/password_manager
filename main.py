@@ -49,7 +49,7 @@ def decrypt_data(encrypted_data:bytes, password:bytes, salt_token:bytes):
     decrypted_data = cipher.decrypt(encrypted_data)
     return decrypted_data.decode()
 
-def display_entry(columns:list, entries:list):
+def display_entry(columns:list, entries):
     # display entries as a table
     display_table = PrettyTable(columns)
     if isinstance(entries[0], list):
@@ -59,7 +59,7 @@ def display_entry(columns:list, entries:list):
     print(display_table)
 
 def main():
-    # init user session
+    # init and prep user session
     main_session = PassSession(user_session.username, user_session.user_id)
     # get user salt
     salt_token = user_session.get_salt_token()
@@ -92,7 +92,7 @@ def main():
                 decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
                 display_entry(['url', 'Password', 'Account'], (url, decrypted_pass, fetched_account_name))
             except TypeError:
-                print('Account name not found.')  
+                print('Account name not found.')
         # Add
         elif menu.lower() == "a":
             new_url = input('Url: ')
@@ -130,7 +130,7 @@ def main():
             if del_account in user_accounts:
                 main_session.delete_entry(del_account)
                 print('Account Deleted.')
-                # update user's accounts
+                # update session user's accounts
                 user_accounts.remove(del_account)
         # Quit
         elif menu.lower() == "q":

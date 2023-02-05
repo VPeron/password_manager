@@ -11,7 +11,10 @@ DB_PATH = Path("enpasman.db")
 # setup first use - refactor with packaging
 # create users table if it doesnt exits
 pre_query_users = '''CREATE TABLE IF NOT EXISTS users
-            (user_id INTEGER PRIMARY KEY, username text UNIQUE, password BLOB, salt_token BLOB)'''
+            (user_id INTEGER PRIMARY KEY, 
+            username text UNIQUE, 
+            password BLOB, 
+            salt_token BLOB)'''
 # create accounts table if it doesnt exits
 pre_query_accounts = '''CREATE TABLE IF NOT EXISTS accounts
         (id INTEGER PRIMARY KEY, 
