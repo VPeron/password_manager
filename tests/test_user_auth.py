@@ -8,6 +8,7 @@ from db_conn import SQLite
 
 DB_PATH = Path("enpasman.db")
 
+
 class TestUserAuth(unittest.TestCase):
     
     def setUp(self):
@@ -21,9 +22,10 @@ class TestUserAuth(unittest.TestCase):
         self.assertIsInstance(salt_token, bytes)
  
     def tearDown(self):
-        query = "DELETE FROM users WHERE username = 'test_user'"
+        user_query = "DELETE FROM users WHERE username = 'test_user'"
+        
         with SQLite(DB_PATH) as db:
-            db.cursor.execute(query)
+            db.cursor.execute(user_query)
             db.connection.commit()
         print('Users tear down complete')
         

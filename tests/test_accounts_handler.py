@@ -28,8 +28,10 @@ class testPassSession(unittest.TestCase):
     
     def tearDown(self):
         query = "DELETE FROM users WHERE username = 'test_user'"
+        account_query = "DELETE FROM accounts WHERE url = 'www.test.com'"
         with SQLite(DB_PATH) as db:
             db.cursor.execute(query)
+            db.cursor.execute(account_query)
             db.connection.commit()
         print('test accounts tear down complete')
         

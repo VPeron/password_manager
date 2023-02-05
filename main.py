@@ -16,7 +16,7 @@ from modules.password_generator import generate_password
 
 
 
-SHA_ITERS = 500_000
+SHA_ITERS = 306_000
 
 # Cryptography helper functions
 def encrypt_data(data:bytes, password:bytes, salt_token:bytes):
