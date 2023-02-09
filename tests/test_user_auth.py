@@ -1,8 +1,8 @@
 import unittest
 from pathlib import Path
 
-from user_auth import UserAuth
-from db_conn import SQLite
+from modules.user_auth import UserAuth
+from modules.db_conn import SQLite
 
 
 

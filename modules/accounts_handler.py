@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from db_conn import SQLite
+from modules.db_conn import SQLite
 
 
 
@@ -19,6 +19,8 @@ class PassSession:
         with SQLite(DB_PATH) as db:
             db.cursor.execute(add_query, (url, hashed_pass, account_name, self.user_id))
             db.connection.commit()
+        # update accounts
+        self.get_all_account_names()
     
     def view_entry(self, account_name):
         # fetch account_name & password by account name & user_id
@@ -47,6 +49,8 @@ class PassSession:
             with SQLite(DB_PATH) as db:
                 db.cursor.execute(delete_query, (account_name, self.user_id))
                 db.connection.commit()
+        # update accounts
+        self.get_all_account_names()
 
     def get_all_account_names(self):
         # fetch all account names

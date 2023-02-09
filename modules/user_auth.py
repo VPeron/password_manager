@@ -2,7 +2,7 @@ import hashlib
 from pathlib import Path
 import os
 
-from db_conn import SQLite
+from modules.db_conn import SQLite
 
 
 
@@ -25,6 +25,7 @@ pre_query_accounts = '''CREATE TABLE IF NOT EXISTS accounts
         FOREIGN KEY (user_id) 
             REFERENCES users (user_id)
             ON DELETE CASCADE)'''
+
 with SQLite(DB_PATH) as db:
     db.cursor.execute(pre_query_users)
     db.cursor.execute(pre_query_accounts)

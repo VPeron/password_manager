@@ -9,8 +9,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
 
-from user_auth import UserAuth
-from accounts_handler import PassSession
+from modules.user_auth import UserAuth
+from modules.accounts_handler import PassSession
 from modules.ascii_art import get_ascii_art
 from modules.password_generator import generate_password
 
@@ -18,7 +18,6 @@ from modules.password_generator import generate_password
 
 SHA_ITERS = 306_000
 
-# Cryptography helper functions
 def encrypt_data(data:bytes, password:bytes, salt_token:bytes):
     # Derive encryption key from password
     kdf = PBKDF2HMAC(
@@ -61,7 +60,7 @@ def display_entry(columns:list, entries):
 def main():
     # init and prep user session
     main_session = PassSession(user_session.username, user_session.user_id)
-    # get user salt
+    # get user salt -> #TODO move to account level
     salt_token = user_session.get_salt_token()
     print('\nLogin Successful\nUser Accounts loaded')
     print(f"\nUser Session: {user_session.username.capitalize()}\n")
@@ -132,6 +131,8 @@ def main():
                 print('Account Deleted.')
                 # update session user's accounts
                 user_accounts.remove(del_account)
+            else:
+                print(f'Account {del_account} not found')
         # Quit
         elif menu.lower() == "q":
             print("\n  Goodbye\n")

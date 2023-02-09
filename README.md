@@ -41,31 +41,21 @@ the cryptography library.
 
 ##TODO improve tests and add logs
 
+##TODO replace plain text password to clipboard paste
+
 ##TODO prep for packaging, package
-
-##TODO improve display
-
-##TODO try a streamlit version?
 
 ##TODO track passwords age
 
 ##TODO implement periodic back up of database file
 
-##TODO add password generator
+##TODO improve password generator
 
-##TODO move sqlite3 to postgres
-
-##TODO implement utils module - crypt functions, display functions
-
-##TODO implement a salt per account password rather than user salt_token 
+##TODO implement a salt per account password rather than user salt_token to derive account password
 
 #### Tests
 
-- user_auth
-
 #TODO setup tests database
-
-#TODO setup teardown
 
 ### Snowball in Hell and Current Issues:
 

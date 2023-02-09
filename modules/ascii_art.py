@@ -41,10 +41,10 @@ def get_new_ascii_art(new_width=SIZE):
     # print result to terminal
     print(ascii_img)
     # save result to file
-    with open("modules/ascii_image.txt", "w") as f:
+    with open("images/ascii_image.txt", "w") as f:
         f.write(ascii_img)
 
 def get_ascii_art():
-    with open('modules/ascii_image.txt') as img_obj:
+    with open('images/ascii_image.txt') as img_obj:
         ascii_art = img_obj.read()
     print(ascii_art)

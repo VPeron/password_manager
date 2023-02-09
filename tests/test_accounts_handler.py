@@ -1,9 +1,9 @@
 import unittest
 from pathlib import Path
 
-from user_auth import UserAuth
-from accounts_handler import PassSession
-from db_conn import SQLite
+from modules.user_auth import UserAuth
+from modules.accounts_handler import PassSession
+from modules.db_conn import SQLite
 
 
 
@@ -20,7 +20,7 @@ class testPassSession(unittest.TestCase):
         print('test accounts setup done')
     
     def test_add_entry(self):
-        self.test_session.add_entry('www.test.com', self.test_user.password, self.test_user.salt_token)
+        self.test_session.add_entry('www.test.com', self.test_user.password, self.test_user.get_salt_token())
         self.assertEqual(len(self.test_session.accounts), 1)
     
     def test_get_all_account_names(self):
