@@ -61,8 +61,6 @@ the cryptography library.
 
 - sanitize sql queries properly
 
-- fix test_accounts_handler.py: tests dont run sequentially, something is buggy.
-
-# Rerences
+## Rerences
 
 - ascii art script: https://github.com/kiteco/python-youtube-code/blob/master/ascii/ascii_convert.py
