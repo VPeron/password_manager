@@ -67,8 +67,6 @@ def main():
     # retrieve user existing account names
     # get_all_account_names() triggers self.accounts to be created
     main_session.get_all_account_names()
-    # user_accounts tracks unique account names during session
-    user_accounts = list(main_session.accounts.values())
 
     while True:
         input('Press Enter to Continue')
@@ -76,7 +74,7 @@ def main():
         main_session.get_all_account_names()
         print(f'User: {user_session.username}')
         print('Saved accounts:')
-        print(user_accounts)
+        print(list(main_session.accounts.values()))
         menu = input("\n[V]iew\n[A]dd\n[e]dit\n[D]elete\n[Q]uit\n-> ")
         # View
         if menu.lower() == "v":
@@ -101,19 +99,17 @@ def main():
                 new_password = generate_password(12).encode()
             new_account_name = input('Account Name: ')
             # enforce unique account names
-            if new_account_name in user_accounts:
+            if new_account_name in list(main_session.accounts.values()):
                 print('This Account name already exists')
                 continue
             encrypted_password = encrypt_data(new_password, user_session.password, salt_token)
             main_session.add_entry(new_url, encrypted_password.decode(), new_account_name)
-            # update sessions accounts* - more elegant way?
-            user_accounts.append(new_account_name)
             print('\nNew Entry Created.')
             display_entry(['url', 'Account'], [new_url, new_account_name])
         # Edit
         elif menu.lower() == "e":
             account_name = input('Account Name to edit: ')
-            if account_name in user_accounts:
+            if account_name in list(main_session.accounts.values()):
                 new_password = getpass('New Password (Leave blank to auto-generate): ').encode()
                 if len(new_password) == 0:
                     # generate random password default lentgh = 12
@@ -126,11 +122,9 @@ def main():
         # Delete
         elif menu.lower() == "d":
             del_account = input("Account Name: ")
-            if del_account in user_accounts:
+            if del_account in list(main_session.accounts.values()):
                 main_session.delete_entry(del_account)
                 print('Account Deleted.')
-                # update session user's accounts
-                user_accounts.remove(del_account)
             else:
                 print(f'Account {del_account} not found')
         # Quit

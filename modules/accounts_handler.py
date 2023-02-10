@@ -29,7 +29,7 @@ class PassSession:
         with SQLite(DB_PATH) as db:
             db.cursor.execute(view_query, (account_name, self.user_id))
             return db.cursor.fetchone()
-    
+
     def edit_entry(self, new_hashedpass, account_name):
         # edit entry
         #TODO sanitize sql input
@@ -39,6 +39,7 @@ class PassSession:
             with SQLite(DB_PATH) as db:
                 db.cursor.execute(edit_query, (new_hashedpass, account_name, self.user_id))
                 db.connection.commit()
+        self.get_all_account_names()
     
     def delete_entry(self, account_name):
         # delete entry
