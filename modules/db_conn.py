@@ -1,6 +1,8 @@
 from pathlib import Path
 import sqlite3
 
+DB_PATH = Path("passwordmanager.db")
+
 class SQLite:
     """
     A minimal sqlite3 context manager to remove some

@@ -1,10 +1,6 @@
-from pathlib import Path
-
-from modules.db_conn import SQLite
+from modules.db_conn import SQLite, DB_PATH
 
 
-
-DB_PATH = Path("enpasman.db")
 
 class PassSession:
     # handles operations and general AUTH system for a user session

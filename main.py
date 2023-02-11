@@ -9,14 +9,14 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
 
-from modules.user_auth import UserAuth
+from modules.db_conn import DB_PATH
+from modules.user_auth import UserAuth, setup_db_tables
 from modules.accounts_handler import PassSession
 from modules.ascii_art import get_ascii_art
 from modules.password_generator import generate_password
 
 
-
-SHA_ITERS = 306_000
+SHA_ITERS = 480_000
 
 def encrypt_data(data:bytes, password:bytes, salt_token:bytes):
     # Derive encryption key from password
@@ -136,6 +136,12 @@ def main():
             continue
 
 if __name__ == '__main__':
+    try:
+        if not os.path.exists(DB_PATH):
+            # setup sqlite3 database and tables first time use or reset
+            setup_db_tables()
+    except Exception as e:
+        print(f"An error occurred: {e}")
     # instanciate parser object
     parser = argparse.ArgumentParser(description = "A Password Manager.")
     # define a register and login arguments for parser object
