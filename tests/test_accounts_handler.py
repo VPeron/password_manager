@@ -1,17 +1,18 @@
 import unittest
 from pathlib import Path
+import os
 
 from modules.user_auth import UserAuth
 from modules.accounts_handler import PassSession
-from modules.db_conn import SQLite
+from modules.db_conn import SQLite, setup_db_tables
 
 
 
-DB_PATH = Path("enpasman.db")
+DB_PATH = Path("tests/tests_db.db")
 
 class testPassSession(unittest.TestCase):
-    
     def setUp(self) -> None:
+        setup_db_tables(DB_PATH)
         self.test_user = UserAuth('test_user', 'test_pass')
         self.test_user.register()
         self.test_user.login()
@@ -33,6 +34,10 @@ class testPassSession(unittest.TestCase):
             db.cursor.execute(query)
             db.cursor.execute(account_query)
             db.connection.commit()
+        # try:
+        #     os.remove(DB_PATH)
+        # except OSError as e:
+        #     print('Error found: ', e)
         print('test accounts tear down complete')
         
 if __name__ == "__main__":

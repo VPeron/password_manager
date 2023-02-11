@@ -139,7 +139,7 @@ if __name__ == '__main__':
     try:
         if not os.path.exists(DB_PATH):
             # setup sqlite3 database and tables first time use or reset
-            setup_db_tables()
+            setup_db_tables(DB_PATH)
     except Exception as e:
         print(f"An error occurred: {e}")
     # instanciate parser object

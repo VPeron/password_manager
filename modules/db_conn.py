@@ -24,7 +24,7 @@ class SQLite:
         self.connection.close()
         
 
-def setup_db_tables():
+def setup_db_tables(DB_PATH):
     # separate function to setup tables
     # setup first use - refactor with packaging
     # create users table if it doesnt exits
