@@ -65,7 +65,7 @@ def main():
     print('\nLogin Successful\nUser Accounts loaded')
     print(f"\nUser Session: {user_session.username.capitalize()}\n")
     # retrieve user existing account names
-    # get_all_account_names() triggers self.accounts to be created
+    # get_all_account_names() triggers self.accounts to be created or updated
     main_session.get_all_account_names()
 
     while True:
