@@ -9,8 +9,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
 
-from modules.db_conn import DB_PATH
-from modules.user_auth import UserAuth, setup_db_tables
+from modules.db_conn import DB_PATH, setup_db_tables
+from modules.user_auth import UserAuth
 from modules.accounts_handler import PassSession
 from modules.ascii_art import get_ascii_art
 from modules.password_generator import generate_password
