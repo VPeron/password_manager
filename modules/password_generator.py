@@ -12,6 +12,15 @@ def char_pool():
     available_chars = letters_upper + letters_lower + digits + special_chars
     return available_chars
 
+def sanitize(data:str):
+    # check if input contains only valid chars
+    available_chars = char_pool()
+    failed_chars = [char for char in data if char not in available_chars]
+    if len(failed_chars) == 0:
+        return True, failed_chars
+    else:
+        return False, failed_chars
+
 def generate_password(n:int):
     # generate a n-char long password that meet certain criteria
     available_chars = char_pool()
@@ -23,6 +32,7 @@ def generate_password(n:int):
         any(map(str.isdigit, password)), 
         any(map(str.isupper, password)), 
         any(map(str.islower, password)),
+        sanitize(password)[0]
         ]
     if all(conditions):
         return password

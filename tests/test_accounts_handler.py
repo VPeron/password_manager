@@ -22,7 +22,7 @@ class testPassSession(unittest.TestCase):
     
     def test_add_entry(self):
         self.test_session.add_entry('www.test.com', self.test_user.password, self.test_user.get_salt_token())
-        self.assertEqual(len(self.test_session.accounts), 1)
+        self.assertEqual(len(self.test_session.accounts.keys()), 2)
     
     def test_get_all_account_names(self):
         self.assertIsInstance(self.test_session.accounts, dict)
@@ -34,10 +34,10 @@ class testPassSession(unittest.TestCase):
             db.cursor.execute(query)
             db.cursor.execute(account_query)
             db.connection.commit()
-        # try:
-        #     os.remove(DB_PATH)
-        # except OSError as e:
-        #     print('Error found: ', e)
+        try:
+            os.remove(DB_PATH)
+        except OSError as e:
+            print('Error found: ', e)
         print('test accounts tear down complete')
         
 if __name__ == "__main__":

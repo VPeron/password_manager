@@ -2,7 +2,7 @@ import hashlib
 import os
 
 from modules.db_conn import SQLite, DB_PATH
-
+from modules.password_generator import sanitize
 
 
 class UserAuth:
@@ -12,7 +12,7 @@ class UserAuth:
     
     def validate_credentials(self):
         # validate credentials criteria
-        if 3 < len(self.username) < 32 and 7 < len(self.password) < 64:
+        if 3 < len(self.username) < 16 and 7 < len(self.password) < 64:
             return True
         return False
 
@@ -21,6 +21,8 @@ class UserAuth:
             print('Username must be at least 4 characters long.\nPasswords must be at least 8 characters long.')
             print('Try again')
             return
+        else:
+            print('valid cred lentgh')
         # check if username is unique
         username_query = """SELECT username FROM users where username = ?"""
         with SQLite(DB_PATH) as db:
