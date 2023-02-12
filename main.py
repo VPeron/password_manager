@@ -70,7 +70,7 @@ def main():
     main_session.get_all_account_names()
 
     while True:
-        input('Press Enter to Continue')
+        input('Press Enter to Continue:\n')
         os.system('clear')
         main_session.get_all_account_names()
         print(f'User: {user_session.username}')

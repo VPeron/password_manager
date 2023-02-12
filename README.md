@@ -8,8 +8,8 @@ welcome but PRs will likely be declined as the intent is to educate myself.
 
 ### FEATURES
 
-- Register and login multiple users
-- Uses Python cryptography library to encrypt stored passwords
+- Register and login multiple user accounts within the same database
+- Uses Python cryptography library to hash or encrypt stored passwords
 - Uses SQLite3 database for persistency, maybe this will scale to posgres
 - Saves a URL, username, and password for each account
 - View, Edit and Delete functionalities
