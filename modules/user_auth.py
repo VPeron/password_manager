@@ -12,17 +12,16 @@ class UserAuth:
     
     def validate_credentials(self):
         # validate credentials criteria
-        if 3 < len(self.username) < 16 and 7 < len(self.password) < 64:
+        if 3 < len(self.username) < 16 and 7 < len(self.password) < 64 and sanitize(self.username):
             return True
         return False
 
     def register(self):
         if not self.validate_credentials():
             print('Username must be at least 4 characters long.\nPasswords must be at least 8 characters long.')
+            print('Only some special characters are allowed.')
             print('Try again')
             return
-        else:
-            print('valid cred lentgh')
         # check if username is unique
         username_query = """SELECT username FROM users where username = ?"""
         with SQLite(DB_PATH) as db:

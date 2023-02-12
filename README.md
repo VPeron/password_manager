@@ -20,11 +20,14 @@ welcome but PRs will likely be declined as the intent is to educate myself.
 - cryptography library
 - prettytable library
 - Pillow
-- pyperclip (On linux sudo apt-get install xclip may be required for pyperclip to work)
+- pyperclip (On linux xclip may be required for pyperclip to work)
 
 ### Usage
 
 - To register as a user: python3 main.py -r
+
+NOTE: The main intention is for single user user but one may need a personal and professional accounts separate.
+
 - To login as a user: python3 main.py -l
 
 Follow the prompt to add, view, update, or delete an account.
@@ -52,10 +55,6 @@ the cryptography library.
 ##TODO improve password generator
 
 ##TODO implement a salt per account password rather than user salt_token to derive account password
-
-#### Tests
-
-#TODO setup tests database
 
 ### Snowball in Hell and Current Issues:
 
