@@ -19,6 +19,8 @@ welcome but PRs will likely be declined as the intent is to educate myself.
 - Python 3.x
 - cryptography library
 - prettytable library
+- Pillow
+- pyperclip (On linux sudo apt-get install xclip may be required for pyperclip to work)
 
 ### Usage
 
@@ -30,18 +32,16 @@ Follow the prompt to add, view, update, or delete an account.
 ### Status:
 
 - The bare minimum functionally is operational.
-argparse cli application should be properly implemented - #TODO crosscheck RP format and possible improvements
+- Simple cli application with argparse
 - The users table, in the database, is setup with hashed* passwords using SHA256.
 - In Accounts, the account names and urls are being saved in plain text. Passwords are encrypted with Fernet.
 - The encryption and decryption key for the accounts are master-password derived using the same
-algorithm from users flow (hash.sha256), however here a salt is implement with the PBKDF2HMAC class still from
+algorithm from users flow (hash.sha256), however here a salt is implemented with the PBKDF2HMAC class still from
 the cryptography library.
 
 ### Pipelined implementations:
 
 ##TODO improve tests and add logs
-
-##TODO replace plain text password to clipboard paste
 
 ##TODO prep for packaging, package
 

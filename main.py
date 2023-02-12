@@ -8,6 +8,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
+import pyperclip
 
 from modules.db_conn import DB_PATH, setup_db_tables
 from modules.user_auth import UserAuth
@@ -87,7 +88,9 @@ def main():
                 url, hashed_pass, fetched_account_name = results
                 # fetch plain text password
                 decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
-                display_entry(['url', 'Password', 'Account'], (url, decrypted_pass, fetched_account_name))
+                display_entry(['url', 'Password', 'Account'], (url, 'copied to clipboard', fetched_account_name))
+                pyperclip.copy(decrypted_pass)
+                spam = pyperclip.paste()
             except TypeError:
                 print('Account name not found.')
         # Add
