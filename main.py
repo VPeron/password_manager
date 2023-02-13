@@ -1,14 +1,14 @@
 import argparse
-from getpass import getpass
 import base64
+from getpass import getpass
 import os
 import logging
 
-from prettytable import PrettyTable
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
+from prettytable import PrettyTable
 import pyperclip
 
 from modules.db_conn import DB_PATH, setup_db_tables
