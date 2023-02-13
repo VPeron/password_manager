@@ -48,12 +48,10 @@ def generate_password(n:int):
     password = ''.join(password_chars)
     # check if at least one char is digit, upper and lower case
     conditions = [
-        any(map(str.isdigit, password)), 
-        any(map(str.isupper, password)), 
-        any(map(str.islower, password)),
+        has_min_requirements(password),
         sanitize(password)[0]
         ]
-    if all(conditions) and has_min_requirements(password):
+    if all(conditions):
         return password
     else:
         return generate_password(n)
