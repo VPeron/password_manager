@@ -1,3 +1,4 @@
 feat_dev/
 images/
 *.db
+*.log

@@ -2,6 +2,7 @@ import argparse
 from getpass import getpass
 import base64
 import os
+import logging
 
 from prettytable import PrettyTable
 from cryptography.hazmat.backends import default_backend
@@ -17,6 +18,8 @@ from modules.ascii_art import get_ascii_art
 from modules.password_generator import generate_password
 
 
+
+logging.basicConfig(filename='pass_man_logger.log', format='%(asctime)s %(message)s', level=logging.INFO)
 SHA_ITERS = 480_000
 
 def encrypt_data(data:bytes, password:bytes, salt_token:bytes):
@@ -64,10 +67,11 @@ def main():
     # get user salt -> #TODO move to account level
     salt_token = user_session.get_salt_token()
     print('\nLogin Successful\nUser Accounts loaded')
-    print(f"\nUser Session: {user_session.username.capitalize()}\n")
+    print(f"\nUser Session: {user_session.username}\n")
     # retrieve user existing account names
     # get_all_account_names() triggers self.accounts to be created or updated
     main_session.get_all_account_names()
+    logging.info(f"Login User: {user_session.username}")
 
     while True:
         input('Press Enter to Continue:\n')
@@ -90,9 +94,10 @@ def main():
                 decrypted_pass = decrypt_data(hashed_pass.encode(), user_session.password, salt_token)
                 display_entry(['url', 'Password', 'Account'], (url, 'copied to clipboard', fetched_account_name))
                 pyperclip.copy(decrypted_pass)
-                spam = pyperclip.paste()
+                pyperclip.paste()
             except TypeError:
                 print('Account name not found.')
+            
         # Add
         elif menu.lower() == "a":
             new_url = input('Url: ')
@@ -109,6 +114,7 @@ def main():
             main_session.add_entry(new_url, encrypted_password.decode(), new_account_name)
             print('\nNew Entry Created.')
             display_entry(['url', 'Account'], [new_url, new_account_name])
+            logging.info("New Account created")
         # Edit
         elif menu.lower() == "e":
             account_name = input('Account Name to edit: ')
@@ -122,6 +128,7 @@ def main():
                 print('Edit Completed.')
             else:
                 print('Account name not found')
+            logging.info("Account Edit")
         # Delete
         elif menu.lower() == "d":
             del_account = input("Account Name: ")
@@ -130,12 +137,13 @@ def main():
                 print('Account Deleted.')
             else:
                 print(f'Account {del_account} not found')
+            logging.info("Account Delete")
         # Quit
         elif menu.lower() == "q":
             print("\n  Goodbye\n")
             break
         else:
-            print("Invalid Option")
+            print("invalid option")
             continue
 
 if __name__ == '__main__':
@@ -161,6 +169,7 @@ if __name__ == '__main__':
     user_session = UserAuth(input('Username: '), getpass('Password: '))
     if args.register != None: 
         user_session.register()
+        logging.info(f"New User Registration: {user_session.username}")
     elif args.login != None:
         if user_session.login():
             main()    
