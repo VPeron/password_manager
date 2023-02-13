@@ -1,9 +1,9 @@
-import random
 import string
+import secrets
+
 
 
 SPECIAL_CHARACTERS = '!$%&/()?{[]}*'
-
 
 def char_pool():
     # char pool
@@ -44,7 +44,7 @@ def generate_password(n:int):
     # generate a n-char long password that meet certain criteria
     available_chars = char_pool()
     # generate random sequence of chars from pool
-    password_chars = [(random.choice(available_chars)) for _ in range(n)]
+    password_chars = [(secrets.choice(available_chars)) for _ in range(n)]
     password = ''.join(password_chars)
     # check if at least one char is digit, upper and lower case
     conditions = [
