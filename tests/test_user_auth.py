@@ -3,6 +3,7 @@ from pathlib import Path
 import os
 
 from modules.user_auth import UserAuth
+from modules.password_generator import sanitize
 from modules.db_conn import SQLite, setup_db_tables
 
 

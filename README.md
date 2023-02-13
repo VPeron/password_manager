@@ -26,20 +26,19 @@ welcome but PRs will likely be declined as the intent is to educate myself.
 
 - To register as a user: python3 main.py -r
 
-NOTE: The main intention is for single user user but one may need a personal and professional accounts separate.
+NOTE: The main intention is for single user user within a local network but one may need a personal and professional accounts, for instance, separated.
 
 - To login as a user: python3 main.py -l
 
-Follow the prompt to add, view, update, or delete an account.
+- Follow the prompt to to enter the username and password, then to add, view, update, or delete an account.
 
 ### Status:
 
-- The bare minimum functionally is operational.
 - Simple cli application with argparse
-- The users table, in the database, is setup with hashed* passwords using SHA256.
+- The users table stores hashed passwords using SHA256.
 - In Accounts, the account names and urls are being saved in plain text. Passwords are encrypted with Fernet.
 - The encryption and decryption key for the accounts are master-password derived using the same
-algorithm from users flow (hash.sha256), however here a salt is implemented with the PBKDF2HMAC class still from
+algorithm from users flow (hash.sha256). here salt is implemented with the PBKDF2HMAC class still from
 the cryptography library.
 
 ### Pipelined implementations:
