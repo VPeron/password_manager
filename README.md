@@ -43,7 +43,7 @@ the cryptography library.
 
 ### Pipelined implementations:
 
-##TODO improve tests and add logs
+##TODO improve tests
 
 ##TODO prep for packaging, package
 
@@ -51,9 +51,7 @@ the cryptography library.
 
 ##TODO implement periodic back up of database file
 
-##TODO improve password generator
-
-##TODO implement a salt per account password rather than user salt_token to derive account password
+##TODO improve key derivations (time stamp?)
 
 ### Snowball in Hell and Current Issues:
 

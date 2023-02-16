@@ -1,4 +1,5 @@
 import PIL.Image
+import os
 
 
 
@@ -25,7 +26,7 @@ def pixels_to_ascii(image):
     characters = "".join([ASCII_CHARS[pixel//25] for pixel in pixels])
     return (characters)
 
-def get_new_ascii_art(new_width=SIZE):
+def gen_new_ascii_art(new_width=SIZE):
     path = input("Image path:\n")
     #path = "modules/padlock.png"
     try:
@@ -40,8 +41,15 @@ def get_new_ascii_art(new_width=SIZE):
     ascii_img = "\n".join([new_image_data[index:(index+new_width)] for index in range(0, pixel_count, new_width)])
     # print result to terminal
     print(ascii_img)
-    # save result to file
-    with open("images/ascii_image.txt", "w") as f:
+    # specify the directory path and count files to enumerate filename
+    img_dir_path = 'images'
+    # get a list of all regular files in the directory
+    files = [f for f in os.listdir(img_dir_path) if os.path.isfile(os.path.join(img_dir_path, f))]
+    # count the number of files in the directory
+    num_files = len(files)
+    filename = f"ascii_image_{num_files}.txt"
+    # save result to file, ### very fragile enumeration system
+    with open(f"images/{filename}", "w") as f:
         f.write(ascii_img)
 
 def get_ascii_art():
