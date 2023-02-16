@@ -159,6 +159,7 @@ class AccountManager(UserAuth):
         with SQLite(DB_PATH) as db:
             db.cursor.execute(view_query, (account_name, user_id))
             return db.cursor.fetchone()
+        
 
     def edit_entry(self, new_hashedpass, account_name, user_id):
         # check if all characters are valid in user input
@@ -253,6 +254,7 @@ def main(user: dict):
                     frame(['Url', 'Password', 'Account Name'], [result[0], 'copied to clipboard', result[2]])
                     pyperclip.copy(decrypted_pass)
                     pyperclip.paste()
+                    logging.info('pass request')
             else:
                 print("account not found")
         # EDIT
