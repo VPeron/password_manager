@@ -111,7 +111,7 @@ class UserAuth(SQLite):
             return False, {"message": "invalid username or password"}
         self.master_key = username + password
         query = "SELECT password, user_id, salt_token FROM users WHERE username = ?"
-        with SQLite(DB_PATH) as db:
+        with SQLite(self.path) as db:
             db.cursor.execute(query, (username,))
             try:
                 (correct_password_hash, user_id, salt_token) = db.cursor.fetchone()
@@ -161,7 +161,7 @@ class AccountManager(UserAuth):
 
     def view_entry(self, account_name, user_id):
         # fetch account_name & password by account name & user_id
-        view_query = "SELECT url, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
+        view_query = "SELECT id, url, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
         with SQLite(self.path) as db:
             db.cursor.execute(view_query, (account_name, user_id))
             return db.cursor.fetchone()
@@ -220,7 +220,7 @@ class AccountManager(UserAuth):
 
 def main(user: dict):
     # init accounts handler
-    test_session = AccountManager(test_session.path)
+    test_session = AccountManager(DB_PATH)
     print(f'\nLogin Successfull\nHi {user["username"]}\n')
     # init menu loop
     while True:
@@ -254,9 +254,9 @@ def main(user: dict):
                 result = test_session.view_entry(account_name, user["user_id"])
                 if result:
                     decrypted_pass = decrypt_data(
-                        result[1], user["master_key"], user["salt_token"]
+                        result[2], user["master_key"], user["salt_token"]
                     )
-                    frame(['Url', 'Password', 'Account Name'], [result[0], 'copied to clipboard', result[2]])
+                    frame(['Id', 'Url', 'Password', 'Account Name'], [result[0], result[1], 'copied to clipboard', result[3]])
                     pyperclip.copy(decrypted_pass)
                     pyperclip.paste()
                     logging.info('pass request')
