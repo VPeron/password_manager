@@ -6,6 +6,10 @@ from pathlib import Path
 from utils.encryption import encrypt_data, decrypt_data
 from utils.char_validation import sanitize
 
+logging.basicConfig(
+    filename="pass_man_logger.log", format="%(asctime)s %(message)s", level=logging.INFO
+)
+
 
 class SQLite:
     """
