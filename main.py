@@ -82,7 +82,7 @@ class UserAuth(SQLite):
             return False
         # check if username is unique
         username_query = """SELECT username FROM users where username = ?"""
-        with SQLite(DB_PATH) as db:
+        with SQLite(self.path) as db:
             db.cursor.execute(username_query, (username,))
             result = db.cursor.fetchone()
         if not result:
@@ -91,7 +91,7 @@ class UserAuth(SQLite):
             salt_token = os.urandom(16)
             query = "INSERT INTO users (username, password, salt_token) VALUES (?,?,?)"
             # custom db connection context manager
-            with SQLite(DB_PATH) as db:
+            with SQLite(self.path) as db:
                 # add username and password to db
                 password = encrypt_data(
                     password.encode(), self.master_key.encode(), salt_token
@@ -149,7 +149,7 @@ class AccountManager(UserAuth):
         if all([sanitize(url), sanitize(account_name)]):
             # add entry to the database
             add_query = "INSERT INTO accounts (url, hashedpass, account_name, user_id) VALUES (?,?,?,?)"
-            with SQLite(DB_PATH) as db:
+            with SQLite(self.path) as db:
                 db.cursor.execute(add_query, (url, hashed_pass, account_name, user_id))
                 db.connection.commit()
             # update accounts
@@ -162,7 +162,7 @@ class AccountManager(UserAuth):
     def view_entry(self, account_name, user_id):
         # fetch account_name & password by account name & user_id
         view_query = "SELECT url, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
-        with SQLite(DB_PATH) as db:
+        with SQLite(self.path) as db:
             db.cursor.execute(view_query, (account_name, user_id))
             return db.cursor.fetchone()
 
@@ -173,7 +173,7 @@ class AccountManager(UserAuth):
             confirm = input("Confirm Edit: (Y/n): ")
             if confirm == "Y":
                 edit_query = "UPDATE accounts SET hashedpass = ? WHERE account_name = ? AND user_id = ?"
-                with SQLite(DB_PATH) as db:
+                with SQLite(self.path) as db:
                     db.cursor.execute(
                         edit_query, (new_hashedpass, account_name, user_id)
                     )
@@ -193,7 +193,7 @@ class AccountManager(UserAuth):
                 delete_query = (
                     "DELETE from accounts WHERE account_name = ? AND user_id = ?"
                 )
-                with SQLite(DB_PATH) as db:
+                with SQLite(self.path) as db:
                     db.cursor.execute(delete_query, (account_name, user_id))
                     db.connection.commit()
             # update accounts
@@ -206,7 +206,7 @@ class AccountManager(UserAuth):
     def get_all_account_names(self, user_id):
         # fetch all account names
         query = "SELECT url, account_name FROM accounts WHERE user_id = ?"
-        with SQLite(DB_PATH) as db:
+        with SQLite(self.path) as db:
             db.cursor.execute(query, (user_id,))
             accounts = db.cursor.fetchall()
         self.accounts = {}
@@ -220,7 +220,7 @@ class AccountManager(UserAuth):
 
 def main(user: dict):
     # init accounts handler
-    test_session = AccountManager(DB_PATH)
+    test_session = AccountManager(test_session.path)
     print(f'\nLogin Successfull\nHi {user["username"]}\n')
     # init menu loop
     while True:
