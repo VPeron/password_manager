@@ -6,6 +6,7 @@ from pathlib import Path
 from utils.encryption import encrypt_data, decrypt_data
 from utils.char_validation import sanitize
 
+
 logging.basicConfig(
     filename="pass_man_logger.log", format="%(asctime)s %(message)s", level=logging.INFO
 )
@@ -40,18 +41,17 @@ class UserAuth(SQLite):
         super().__init__(path)
         if not os.path.exists(path):
             self.setup_db_tables()
-            logging.info("tables setup")
+            logging.info("table setup")
 
     def setup_db_tables(self):
-        # setup db, setup tables
         # create users table if it doesnt exits
-        pre_query_users = """CREATE TABLE IF NOT EXISTS users
+        query_users = """CREATE TABLE IF NOT EXISTS users
                     (user_id INTEGER PRIMARY KEY, 
                     username text UNIQUE, 
                     password BLOB, 
                     salt_token BLOB)"""
         # create accounts table if it doesnt exits
-        pre_query_accounts = """CREATE TABLE IF NOT EXISTS accounts
+        query_accounts = """CREATE TABLE IF NOT EXISTS accounts
                 (id INTEGER PRIMARY KEY, 
                 url text, 
                 hashedpass BLOB,
@@ -60,9 +60,10 @@ class UserAuth(SQLite):
                 FOREIGN KEY (user_id) 
                     REFERENCES users (user_id)
                     ON DELETE CASCADE)"""
+        # setup db and tables
         with SQLite(self.path) as db:
-            db.cursor.execute(pre_query_users)
-            db.cursor.execute(pre_query_accounts)
+            db.cursor.execute(query_users)
+            db.cursor.execute(query_accounts)
             db.connection.commit()
 
     def register(self, username, password):
@@ -91,6 +92,7 @@ class UserAuth(SQLite):
                 db.cursor.execute(query, (username, password, salt_token))
                 db.connection.commit()
                 logging.info(f"registration: {username}")
+                print(f"{username} registered")
                 return True
         else:
             print("try a different username")

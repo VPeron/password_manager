@@ -2,11 +2,11 @@ import unittest
 from pathlib import Path
 import os
 
-from main import UserAuth, AccountManager
+from modules.class_modules import UserAuth, AccountManager
 
 
 
-TEST_DB_PATH = Path('/home/vini/Personal/chat_GPT/password_manager/tests/testpm.db')
+TEST_DB_PATH = Path('tests/testpm.db')
 
 
 class TestMain(unittest.TestCase):
