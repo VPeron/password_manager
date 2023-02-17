@@ -26,7 +26,7 @@ welcome but PRs will likely be declined as the intent is to educate myself.
 
 - To register as a user: python3 main.py -r
 
-NOTE: The main intention is for single user user within a local network but one may need a personal and professional accounts, for instance, separated.
+NOTE: The main intention is for single user usage within a local network but one may need a personal and professional accounts, for instance, separated.
 
 - To login as a user: python3 main.py -l
 
@@ -34,7 +34,7 @@ NOTE: The main intention is for single user user within a local network but one 
 
 ### Status:
 
-- Simple cli application. Build and only tested on Ubuntu Linux
+- Simple cli application. Built and only tested on Ubuntu Linux
 - The users table stores encrypted passwords using SHA256.
 - In Accounts, the account names and urls are being saved in plain text. Passwords are encrypted with Fernet.
 - The encryption and decryption key for the accounts are master-password derived using the same

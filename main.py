@@ -40,6 +40,9 @@ class SQLite:
 
 
 class UserAuth(SQLite):
+    """
+    user registration and authentication
+    """
     def __init__(self, path: Path) -> None:
         self.path = path
         super().__init__(path)
@@ -133,7 +136,10 @@ class UserAuth(SQLite):
 
 
 class AccountManager(UserAuth):
-    # handles account operations and general authorization system for a user session
+    """
+    handles account operations and general authorization system for a user session
+    """
+    
     def __init__(self, path: Path) -> None:
         self.path = path
         super().__init__(path)
@@ -159,7 +165,6 @@ class AccountManager(UserAuth):
         with SQLite(DB_PATH) as db:
             db.cursor.execute(view_query, (account_name, user_id))
             return db.cursor.fetchone()
-        
 
     def edit_entry(self, new_hashedpass, account_name, user_id):
         # check if all characters are valid in user input
@@ -324,6 +329,3 @@ if __name__ == "__main__":
             main(user[1])
         else:
             print("Authentication failed.")
-
-
-
