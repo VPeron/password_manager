@@ -4,7 +4,7 @@ from utils.char_validation import validate_lentgh, sanitize, has_min_requirement
 
 
 
-class TestRefactorEncryption(unittest.TestCase):
+class TestEncryption(unittest.TestCase):
     def setUp(self):
         self.test_letter = 'qwertz'
         self.test_aplhanum = 'qwertz1234'

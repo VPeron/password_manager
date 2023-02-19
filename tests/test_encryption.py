@@ -7,7 +7,7 @@ from utils.encryption import encrypt_data, decrypt_data
 class TestEncryption(unittest.TestCase):
     def setUp(self) -> None:
         self.username = 'vini'
-        self.password = 'password123'
+        self.password = 'testpassword123'
         self.mod_strtime = '2023-02-14'
         self.salt_token = b'bad salt'
         self.data = b'some random string'

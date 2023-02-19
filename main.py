@@ -7,10 +7,10 @@ import logging
 import pyperclip
 
 from utils.encryption import encrypt_data, decrypt_data
-from utils.char_validation import generate_password
+from utils.char_validation import generate_password, SPECIAL_CHARACTERS
 from utils.ascii_art import get_ascii_art
 from utils.display_frame import frame
-from modules.class_modules import AccountManager, UserAuth
+from modules.dbconn_auth_accounts import UserAuth, AccountManager
 
 
 logging.basicConfig(
@@ -51,7 +51,10 @@ def main(user: dict):
                 print('This account name already exists')
                 continue
             else:
-                test_session.add_entry(url, password, account_name, user["user_id"])
+                if test_session.add_entry(url, password, account_name, user["user_id"]):
+                    print('account created')
+                else:
+                    print("invalid lenght or characters. Try again")
         # VIEW
         if menu.lower() == "v":
             account_name = input("Account Name: ")
@@ -64,7 +67,6 @@ def main(user: dict):
                     frame(['Id', 'Url', 'Password', 'Account Name'], [result[0], result[1], 'copied to clipboard', result[3]])
                     pyperclip.copy(decrypted_pass)
                     pyperclip.paste()
-                    logging.info('password request')
             else:
                 print("account not found")
         # EDIT
@@ -87,7 +89,10 @@ def main(user: dict):
             account_name = input("Account Name: ")
             # ensure account exists
             if account_name in test_session.accounts.values():
-                test_session.delete_entry(account_name, user["user_id"])
+                if test_session.delete_entry(account_name, user["user_id"]):
+                    print('account deleted')
+                else:
+                    print("invalid lenght or characters. Try again")
             else:
                 print("account not found")
         # QUIT
@@ -125,7 +130,13 @@ if __name__ == "__main__":
     get_ascii_art()
     if args.register != None:
         # register a new user
-        authenticator.register(input("Username: "), getpass("Password: "))
+        result = authenticator.register(input("Username: "), getpass("Password: "))
+        if result:
+            print("registration complete\nuse -l or --login option to login")
+        else:
+            print("Registration failed")
+            print("try using a different username")
+            print(f"Note: Only some special characters are allowed: {SPECIAL_CHARACTERS}")
 
     elif args.login != None:
         # authenticate the user
@@ -133,4 +144,5 @@ if __name__ == "__main__":
         if user[0]:
             main(user[1])
         else:
-            print("Authentication failed.")
+            print("invalid login username or password")
+            print("authentication failed")

@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 import os
 
-from modules.class_modules import UserAuth, AccountManager
+from modules.dbconn_auth_accounts import UserAuth, AccountManager
 
 
 
@@ -23,6 +23,14 @@ class TestMain(unittest.TestCase):
     def test_get_all_account_names(self):
         self.test_session.get_all_account_names(self.user['user_id'])
         self.assertIsInstance(self.test_session.accounts, dict)
+        
+    def test_register(self):
+        # invalid passwords and username characters
+        self.test_user_2 = 'tes<asd>'
+        self.test_password_2 = 'tes1" or 1+1 §'
+        authenticator2 = UserAuth(TEST_DB_PATH)
+        response = authenticator2.register(self.test_user_2, self.test_password_2)
+        self.assertEqual(response, False)
 
     def test_login(self):
         self.assertIsInstance(self.auth[0], bool)

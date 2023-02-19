@@ -69,8 +69,6 @@ class UserAuth(SQLite):
     def register(self, username, password):
         # check if all characters are valid in user input
         if not all([sanitize(username), sanitize(password)]):
-            print("\nOnly some special characters are allowed")
-            print("Registration failed. Try again")
             logging.info(f'failed registration: {username}')
             return False
         # check if username is unique
@@ -92,16 +90,13 @@ class UserAuth(SQLite):
                 db.cursor.execute(query, (username, password, salt_token))
                 db.connection.commit()
                 logging.info(f"registration: {username}")
-                print(f"{username} registered")
                 return True
         else:
-            print("try a different username")
             return False
 
     def login(self, username, password):
         # check if all characters are valid in user input
         if not all([sanitize(username), sanitize(password)]):
-            print("invalid login username or password")
             return False, {"message": "invalid username or password"}
         self.master_key = username + password
         query = "SELECT password, user_id, salt_token FROM users WHERE username = ?"
@@ -109,8 +104,8 @@ class UserAuth(SQLite):
             db.cursor.execute(query, (username,))
             try:
                 (correct_password_hash, user_id, salt_token) = db.cursor.fetchone()
-            except TypeError:
-                print("invalid username or password")
+            except TypeError as e:
+                print(e, "invalid username or password")
                 correct_password_hash = False
         if correct_password_hash:
             decrypt_password_hash = decrypt_data(
@@ -125,7 +120,7 @@ class UserAuth(SQLite):
                     "salt_token": salt_token,
                 }
             else:
-                print("invalid username or password")
+                return False, {"message": "invalid username or password"}
         return False, {"message": "invalid username or password"}
 
 
@@ -148,9 +143,9 @@ class AccountManager(UserAuth):
                 db.connection.commit()
             # update accounts
             self.get_all_account_names(user_id)
-            logging.info(f"add_entry: {user_id}")
+            logging.info(f"create request - userid:{user_id}")
+            return True
         else:
-            print("invalid lenght or characters. Try again")
             return False
 
     def view_entry(self, account_name, user_id):
@@ -158,7 +153,9 @@ class AccountManager(UserAuth):
         view_query = "SELECT id, url, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
         with SQLite(self.path) as db:
             db.cursor.execute(view_query, (account_name, user_id))
-            return db.cursor.fetchone()
+            result = db.cursor.fetchone()
+            logging.info(f"view request - userid:{user_id} accountid:{result[0]}")
+            return result
 
     def edit_entry(self, new_hashedpass, account_name, user_id):
         # check if all characters are valid in user input
@@ -173,7 +170,7 @@ class AccountManager(UserAuth):
                     )
                     db.connection.commit()
             self.get_all_account_names(user_id)
-            logging.info(f"edit_entry: {user_id}")
+            logging.info(f"edit request - userid:{user_id} accountid:{account_name}")
         else:
             print("invalid lenght or characters. Try again")
             return
@@ -192,10 +189,10 @@ class AccountManager(UserAuth):
                     db.connection.commit()
             # update accounts
             self.get_all_account_names(user_id)
-            logging.info(f"del_entry: {user_id}")
+            logging.info(f"delete request - userid:{user_id}")
+            return True
         else:
-            print("invalid lenght or characters. Try again")
-            return
+            return False
 
     def get_all_account_names(self, user_id):
         # fetch all account names
