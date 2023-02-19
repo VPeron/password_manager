@@ -66,7 +66,7 @@ class UserAuth(SQLite):
             db.cursor.execute(query_accounts)
             db.connection.commit()
 
-    def register(self, username, password):
+    def register(self, username: str, password: str):
         # check if all characters are valid in user input
         if not all([sanitize(username), sanitize(password)]):
             logging.info(f'failed registration: {username}')
@@ -94,7 +94,7 @@ class UserAuth(SQLite):
         else:
             return False
 
-    def login(self, username, password):
+    def login(self, username: str, password: str):
         # check if all characters are valid in user input
         if not all([sanitize(username), sanitize(password)]):
             return False, {"message": "invalid username or password"}
@@ -133,7 +133,7 @@ class AccountManager(UserAuth):
         self.path = path
         super().__init__(path)
 
-    def add_entry(self, url, hashed_pass, account_name, user_id):
+    def add_entry(self, url: str, hashed_pass: bytes, account_name: str, user_id: int):
         # check if all characters are valid in user input
         if all([sanitize(url), sanitize(account_name)]):
             # add entry to the database
@@ -148,7 +148,7 @@ class AccountManager(UserAuth):
         else:
             return False
 
-    def view_entry(self, account_name, user_id):
+    def view_entry(self, account_name: str, user_id: int):
         # fetch account_name & password by account name & user_id
         view_query = "SELECT id, url, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
         with SQLite(self.path) as db:
@@ -157,7 +157,7 @@ class AccountManager(UserAuth):
             logging.info(f"view request - userid:{user_id} accountid:{result[0]}")
             return result
 
-    def edit_entry(self, new_hashedpass, account_name, user_id):
+    def edit_entry(self, new_hashedpass: bytes, account_name: str, user_id: int):
         # check if all characters are valid in user input
         if sanitize(account_name):
             # edit entry
@@ -175,7 +175,7 @@ class AccountManager(UserAuth):
             print("invalid lenght or characters. Try again")
             return
 
-    def delete_entry(self, account_name, user_id):
+    def delete_entry(self, account_name: str, user_id: int):
         # check if all characters are valid in user input
         if sanitize(account_name):
             # delete entry
@@ -194,7 +194,7 @@ class AccountManager(UserAuth):
         else:
             return False
 
-    def get_all_account_names(self, user_id):
+    def get_all_account_names(self, user_id: int):
         # fetch all account names
         query = "SELECT url, account_name FROM accounts WHERE user_id = ?"
         with SQLite(self.path) as db:
