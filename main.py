@@ -47,7 +47,11 @@ def main(user: dict):
                 new_password.encode(), user["master_key"], user["salt_token"]
             )
             account_name = input("Account Name: ")
-            test_session.add_entry(url, password, account_name, user["user_id"])
+            if account_name in test_session.accounts.values():
+                print('This account name already exists')
+                continue
+            else:
+                test_session.add_entry(url, password, account_name, user["user_id"])
         # VIEW
         if menu.lower() == "v":
             account_name = input("Account Name: ")
@@ -60,7 +64,7 @@ def main(user: dict):
                     frame(['Id', 'Url', 'Password', 'Account Name'], [result[0], result[1], 'copied to clipboard', result[3]])
                     pyperclip.copy(decrypted_pass)
                     pyperclip.paste()
-                    logging.info('pass request')
+                    logging.info('password request')
             else:
                 print("account not found")
         # EDIT
