@@ -2,7 +2,6 @@ import argparse
 import os
 from pathlib import Path
 from getpass import getpass
-import logging
 
 import pyperclip
 
@@ -13,9 +12,6 @@ from utils.display_frame import frame
 from modules.dbconn_auth_accounts import UserAuth, AccountManager
 
 
-logging.basicConfig(
-    filename="pass_man_logger.log", format="%(asctime)s %(message)s", level=logging.INFO
-)
 DB_PATH = Path("passwordmanager.db")
 
 
@@ -84,6 +80,7 @@ def main(user: dict):
                 new_password.encode(), user["master_key"], user["salt_token"]
             )
             test_session.edit_entry(enc_password, account_name, user["user_id"])
+            print('account edit complete')
         # DELETE
         if menu.lower() == "d":
             account_name = input("Account Name: ")

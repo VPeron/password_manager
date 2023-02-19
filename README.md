@@ -42,17 +42,11 @@ algorithm from users flow (hash.sha256).
 
 ### Pipelined implementations:
 
-##TODO improve tests
-
-##TODO prep for packaging
-
 ##TODO track passwords age
 
 ### Snowball in Hell and Current Issues:
 
 ##TODO improve key derivations (time stamp?)
-
-##TODO implement periodic back up of database file
 
 ## Rerences
 

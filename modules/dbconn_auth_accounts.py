@@ -170,7 +170,7 @@ class AccountManager(UserAuth):
                     )
                     db.connection.commit()
             self.get_all_account_names(user_id)
-            logging.info(f"edit request - userid:{user_id} accountid:{account_name}")
+            logging.info(f"edit request - userid:{user_id}")
         else:
             print("invalid lenght or characters. Try again")
             return
