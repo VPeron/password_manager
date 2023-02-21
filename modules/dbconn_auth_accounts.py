@@ -22,14 +22,22 @@ class SQLite:
         self.path = path
 
     def __enter__(self):
-        self.connection: sqlite3.Connection = sqlite3.connect(self.path)
-        self.connection.row_factory = sqlite3.Row
-        self.cursor: sqlite3.Cursor = self.connection.cursor()
-        # return methods of the context handler
-        return self
+        try:
+            self.connection: sqlite3.Connection = sqlite3.connect(self.path)
+            self.connection.row_factory = sqlite3.Row
+            self.cursor: sqlite3.Cursor = self.connection.cursor()
+            # return methods of the context handler
+            return self
+        except Exception as e:
+            raise Exception(f"Error connecting to database: {str(e)}")
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.connection.close()
+        try:
+            self.connection.close()
+        except Exception as e:
+            raise Exception(f"Error closing database: {str(e)}")
+        if exc_val:
+            raise Exception(f"Error executing query: {str(exc_val)}")
 
 
 class UserAuth(SQLite):
