@@ -48,6 +48,6 @@ algorithm from users flow (hash.sha256).
 
 ##TODO improve key derivations (time stamp?)
 
-## Rerences
+## References
 
 - ascii art script: https://github.com/kiteco/python-youtube-code/blob/master/ascii/ascii_convert.py

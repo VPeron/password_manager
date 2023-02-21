@@ -18,7 +18,7 @@ def encrypt_data(data: bytes, master_key: bytes, salt_token: bytes):
         iterations=SHA_ITERS,
         backend=default_backend(),
     )
-    # Derive encryption key from password
+    # Derive encryption key from master key
     encryption_key = base64.urlsafe_b64encode(kdf.derive(master_key))
     # Encrypt data using Fernet
     cipher = Fernet(encryption_key)
@@ -34,7 +34,7 @@ def decrypt_data(encrypted_data: bytes, master_key: bytes, salt_token: bytes):
         iterations=SHA_ITERS,
         backend=default_backend(),
     )
-    # Derive encryption key from password
+    # Derive encryption key from master key
     encryption_key = base64.urlsafe_b64encode(kdf.derive(master_key))
     # Decrypt data using Fernet
     cipher = Fernet(encryption_key)
