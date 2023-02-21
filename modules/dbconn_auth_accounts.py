@@ -73,6 +73,16 @@ class UserAuth(SQLite):
             db.cursor.execute(query_users)
             db.cursor.execute(query_accounts)
             db.connection.commit()
+            
+    def username_is_unique(self, username):
+        username_query = """SELECT username FROM users where username = ?"""
+        with SQLite(self.path) as db:
+            db.cursor.execute(username_query, (username,))
+            result = db.cursor.fetchone()
+        if not result:
+            return True
+        return False
+        
 
     def register(self, username: str, password: str):
         # check if all characters are valid in user input
@@ -80,11 +90,7 @@ class UserAuth(SQLite):
             logging.info(f'failed registration: {username}')
             return False
         # check if username is unique
-        username_query = """SELECT username FROM users where username = ?"""
-        with SQLite(self.path) as db:
-            db.cursor.execute(username_query, (username,))
-            result = db.cursor.fetchone()
-        if not result:
+        if self.username_is_unique(username):
             # username is unique in db so we persist it
             self.master_key = username + password
             salt_token = os.urandom(16)
