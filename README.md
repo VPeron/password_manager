@@ -46,7 +46,7 @@ algorithm from users flow (hash.sha256).
 
 ### Snowball in Hell and Current Issues:
 
-##TODO improve key derivations (time stamp?)
+##TODO improve key derivations
 
 ## References
 
