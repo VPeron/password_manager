@@ -61,6 +61,9 @@ def main(user: dict):
 
 
 def _add_entry(session, user):
+    """
+    TODO docs
+    """
     url = input("Url: ")
     new_password = getpass("Password (leave blank to auto-generate): ")
     if len(new_password) == 0:
@@ -81,6 +84,9 @@ def _add_entry(session, user):
 
 
 def _view_entry(session, user):
+    """
+    TODO docs
+    """
     account_name = input("Account Name: ")
     if account_name in session.accounts.values():
         result = session.view_entry(account_name, user["user_id"])
@@ -99,6 +105,9 @@ def _view_entry(session, user):
 
 
 def _edit_entry(session, user):
+    """
+    TODO docs
+    """
     account_name = input("Account Name: ")
     # ensure account exists
     if account_name not in session.accounts.values():
@@ -116,6 +125,9 @@ def _edit_entry(session, user):
 
 
 def _delete_entry(session, user):
+    """
+    TODO docs
+    """
     account_name = input("Account Name: ")
     # ensure account exists
     if account_name in session.accounts.values():
@@ -126,8 +138,7 @@ def _delete_entry(session, user):
     else:
         print("account not found")
 
-
-if __name__ == "__main__":
+def auth():
     authenticator = UserAuth(DB_PATH)
     # instanciate parser object
     parser = argparse.ArgumentParser(description="A Password Manager.")
@@ -174,3 +185,8 @@ if __name__ == "__main__":
         else:
             print("invalid login username or password")
             print("authentication failed")
+
+
+if __name__ == "__main__":
+    auth()
+
