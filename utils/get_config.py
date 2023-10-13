@@ -13,7 +13,3 @@ def fetch_config(type_list: list):
         if item in data.keys():
             fetch_bag[item] = data[item]
     return fetch_bag
-
-# result = fetch_config(["asci_size", "sha_iters"])
-
-# print(result)

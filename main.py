@@ -17,6 +17,9 @@ DB_PATH = Path(fetch_config(["dbname"])["dbname"])
 
 
 def main():
+    """
+    TODO docs
+    """
     authenticator = UserAuth(DB_PATH)
     # instanciate parser object
     parser = argparse.ArgumentParser(description="A Password Manager.")
@@ -110,9 +113,9 @@ def run(user: dict):
             break
 
 
-def _add_entry(session, user):
+def _add_entry(session, user: dict):
     """
-    TODO docs
+    TODO add docs
     """
     url = input("Url: ")
     user_name = input("Username: ")
@@ -134,7 +137,7 @@ def _add_entry(session, user):
             print("invalid lenght or characters. Try again")
 
 
-def _view_entry(session, user):
+def _view_entry(session, user: dict):
     """
     TODO docs
     """
@@ -155,7 +158,7 @@ def _view_entry(session, user):
         print("account not found")
 
 
-def _edit_entry(session, user):
+def _edit_entry(session, user: dict):
     """
     TODO docs
     """
@@ -175,7 +178,7 @@ def _edit_entry(session, user):
     print("account edit complete")
 
 
-def _delete_entry(session, user):
+def _delete_entry(session, user: dict):
     """
     TODO docs
     """

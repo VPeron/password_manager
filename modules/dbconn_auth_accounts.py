@@ -5,7 +5,12 @@ from pathlib import Path
 
 from utils.encryption import encrypt_data, decrypt_data
 from utils.char_validation import sanitize
+from utils.get_config import fetch_config
 
+data = fetch_config(["dbname", "logfile_path"])
+
+DBNAME = data["dbname"]
+LOGFILE_PATH = data["logfile_path"]
 
 logging.basicConfig(
     filename="pass_man_logger.log", format="%(asctime)s %(message)s", level=logging.INFO
@@ -47,9 +52,8 @@ class UserAuth(SQLite):
     def __init__(self, path: Path) -> None:
         self.path = path
         super().__init__(path)
-        if not os.path.exists(path):
-            self.setup_db_tables()
-            logging.info("table setup")
+        self.setup_db_tables()
+        logging.info("table setup")
 
     def setup_db_tables(self):
         # create users table if it doesnt exits
