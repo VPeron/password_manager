@@ -3,7 +3,7 @@ import string
 import re
 
 
-SPECIAL_CHARACTERS = "!$%&()?{[]}*-._"
+SPECIAL_CHARACTERS = "@!$%&()?{[]}*-._"
 
 
 def char_pool():
