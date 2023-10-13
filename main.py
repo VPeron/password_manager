@@ -15,7 +15,56 @@ from modules.dbconn_auth_accounts import UserAuth, AccountManager
 DB_PATH = Path("passwordmanager.db")
 
 
-def main(user: dict):
+def main():
+    authenticator = UserAuth(DB_PATH)
+    # instanciate parser object
+    parser = argparse.ArgumentParser(description="A Password Manager.")
+    # define a register and login arguments for parser object
+    parser.add_argument(
+        "-r",
+        "--register",
+        type=str,
+        nargs="*",
+        metavar="str",
+        default=None,
+        help="Register a user for the Password Manager.",
+    )
+    parser.add_argument(
+        "-l",
+        "--login",
+        type=str,
+        nargs="*",
+        metavar="str",
+        default=None,
+        help="Login to the Password Manager.",
+    )
+    # parse the arguments from standard input
+    args = parser.parse_args()
+    os.system("clear")
+    get_ascii_art()
+    if args.register != None:
+        # register a new user
+        result = authenticator.register(input("Username: "), getpass("Password: "))
+        if result:
+            print("registration complete\nuse -l or --login option to login")
+        else:
+            print("Registration failed")
+            print("try using a different username")
+            print(
+                f"Note: Only some special characters are allowed: {SPECIAL_CHARACTERS}"
+            )
+
+    elif args.login != None:
+        # authenticate the user
+        user = authenticator.login(input("Username: "), getpass("Password: "))
+        if user[0]:
+            run(user[1])
+        else:
+            print("invalid login username or password")
+            print("authentication failed")
+
+
+def run(user: dict):
     """
     TODO: add docs
     """
@@ -139,55 +188,6 @@ def _delete_entry(session, user):
     else:
         print("account not found")
 
-def auth():
-    authenticator = UserAuth(DB_PATH)
-    # instanciate parser object
-    parser = argparse.ArgumentParser(description="A Password Manager.")
-    # define a register and login arguments for parser object
-    parser.add_argument(
-        "-r",
-        "--register",
-        type=str,
-        nargs="*",
-        metavar="str",
-        default=None,
-        help="Register a user for the Password Manager.",
-    )
-    parser.add_argument(
-        "-l",
-        "--login",
-        type=str,
-        nargs="*",
-        metavar="str",
-        default=None,
-        help="Login to the Password Manager.",
-    )
-    # parse the arguments from standard input
-    args = parser.parse_args()
-    os.system("clear")
-    get_ascii_art()
-    if args.register != None:
-        # register a new user
-        result = authenticator.register(input("Username: "), getpass("Password: "))
-        if result:
-            print("registration complete\nuse -l or --login option to login")
-        else:
-            print("Registration failed")
-            print("try using a different username")
-            print(
-                f"Note: Only some special characters are allowed: {SPECIAL_CHARACTERS}"
-            )
-
-    elif args.login != None:
-        # authenticate the user
-        user = authenticator.login(input("Username: "), getpass("Password: "))
-        if user[0]:
-            main(user[1])
-        else:
-            print("invalid login username or password")
-            print("authentication failed")
-
-
 if __name__ == "__main__":
-    auth()
+    main()
 

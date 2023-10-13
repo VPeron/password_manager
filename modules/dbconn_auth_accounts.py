@@ -148,7 +148,7 @@ class AccountManager(UserAuth):
         self.path = path
         super().__init__(path)
 
-    def add_entry(self, user_name: str, url: str, hashed_pass: bytes, account_name: str, user_id: int):
+    def add_entry(self, url: str, user_name: str, hashed_pass: bytes, account_name: str, user_id: int):
         # check if all characters are valid in user input
         if all([sanitize(url), sanitize(account_name)]):
             # add entry to the database
@@ -169,8 +169,9 @@ class AccountManager(UserAuth):
         with SQLite(self.path) as db:
             db.cursor.execute(view_query, (account_name, user_id))
             result = db.cursor.fetchone()
-            logging.info(f"view request - userid:{user_id} accountid:{result[0]}")
-            return result
+            if result:
+                logging.info(f"view request - userid:{user_id} accountid:{result[0]}")
+                return result
 
     def edit_entry(self, new_hashedpass: bytes, account_name: str, user_id: int):
         # check if all characters are valid in user input
