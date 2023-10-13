@@ -61,7 +61,8 @@ class UserAuth(SQLite):
         # create accounts table if it doesnt exits
         query_accounts = """CREATE TABLE IF NOT EXISTS accounts
                 (id INTEGER PRIMARY KEY, 
-                url text, 
+                url text,
+                user_name text,
                 hashedpass BLOB,
                 account_name text,
                 user_id INTEGER,
@@ -147,13 +148,13 @@ class AccountManager(UserAuth):
         self.path = path
         super().__init__(path)
 
-    def add_entry(self, url: str, hashed_pass: bytes, account_name: str, user_id: int):
+    def add_entry(self, user_name: str, url: str, hashed_pass: bytes, account_name: str, user_id: int):
         # check if all characters are valid in user input
         if all([sanitize(url), sanitize(account_name)]):
             # add entry to the database
-            add_query = "INSERT INTO accounts (url, hashedpass, account_name, user_id) VALUES (?,?,?,?)"
+            add_query = "INSERT INTO accounts (url, user_name, hashedpass, account_name, user_id) VALUES (?,?,?,?,?)"
             with SQLite(self.path) as db:
-                db.cursor.execute(add_query, (url, hashed_pass, account_name, user_id))
+                db.cursor.execute(add_query, (url, user_name, hashed_pass, account_name, user_id))
                 db.connection.commit()
             # update accounts
             self.get_all_account_names(user_id)
@@ -164,7 +165,7 @@ class AccountManager(UserAuth):
 
     def view_entry(self, account_name: str, user_id: int):
         # fetch account_name & password by account name & user_id
-        view_query = "SELECT id, url, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
+        view_query = "SELECT id, url, user_name, hashedpass, account_name FROM accounts WHERE account_name = ? AND user_id = ?"
         with SQLite(self.path) as db:
             db.cursor.execute(view_query, (account_name, user_id))
             result = db.cursor.fetchone()

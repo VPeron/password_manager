@@ -65,6 +65,7 @@ def _add_entry(session, user):
     TODO docs
     """
     url = input("Url: ")
+    user_name = input("Username: ")
     new_password = getpass("Password (leave blank to auto-generate): ")
     if len(new_password) == 0:
         # generate an n-char-long password (n=12)
@@ -77,7 +78,7 @@ def _add_entry(session, user):
         print("This account name already exists")
         return
     else:
-        if session.add_entry(url, password, account_name, user["user_id"]):
+        if session.add_entry(url, user_name, password, account_name, user["user_id"]):
             print("account created")
         else:
             print("invalid lenght or characters. Try again")
@@ -92,11 +93,11 @@ def _view_entry(session, user):
         result = session.view_entry(account_name, user["user_id"])
         if result:
             decrypted_pass = decrypt_data(
-                result[2], user["master_key"], user["salt_token"]
+                result[3], user["master_key"], user["salt_token"]
             )
             frame(
-                ["Id", "Url", "Password", "Account Name"],
-                [result[0], result[1], "copied to clipboard", result[3]],
+                ["Id", "Username", "Url", "Password", "Account Name"],
+                [result[0], result[1], result[2], "copied to clipboard", result[4]],
             )
             pyperclip.copy(decrypted_pass)
             pyperclip.paste()
