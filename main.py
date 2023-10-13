@@ -9,10 +9,11 @@ from utils.encryption import encrypt_data, decrypt_data
 from utils.char_validation import generate_password, SPECIAL_CHARACTERS
 from utils.ascii_art import get_ascii_art
 from utils.display_frame import frame
+from utils.get_config import fetch_config
 from modules.dbconn_auth_accounts import UserAuth, AccountManager
 
 
-DB_PATH = Path("passwordmanager.db")
+DB_PATH = Path(fetch_config(["dbname"])["dbname"])
 
 
 def main():

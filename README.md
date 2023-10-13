@@ -54,6 +54,4 @@ algorithm from users flow (hash.sha256).
 
 ## TODO
 
-fix view tables
-- fix database tables
-- fix functions that interact with db
+import csv

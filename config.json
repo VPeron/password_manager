@@ -1,0 +1,8 @@
+{
+    "dbname": "passwordmanager.db",
+    "special_chars": "@!$%&()?{[]}*-._",
+    "asci_chars": ["@", "#", "S", "%", "?", "*", "+", ";", ":", ",", "."],
+    "asci_size": 25,
+    "sha_iters": 480000,
+    "kdf_length": 32
+}
