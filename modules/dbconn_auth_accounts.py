@@ -49,6 +49,7 @@ class UserAuth(SQLite):
     """
     user registration and authentication
     """
+
     def __init__(self, path: Path) -> None:
         self.path = path
         super().__init__(path)
@@ -78,7 +79,7 @@ class UserAuth(SQLite):
             db.cursor.execute(query_users)
             db.cursor.execute(query_accounts)
             db.connection.commit()
-            
+
     def username_is_unique(self, username):
         username_query = """SELECT username FROM users where username = ?"""
         with SQLite(self.path) as db:
@@ -87,12 +88,11 @@ class UserAuth(SQLite):
         if not result:
             return True
         return False
-        
 
     def register(self, username: str, password: str):
         # check if all characters are valid in user input
         if not all([sanitize(username), sanitize(password)]):
-            logging.info(f'failed registration: {username}')
+            logging.info(f"failed registration: {username}")
             return False
         # check if username is unique
         if self.username_is_unique(username):
@@ -147,18 +147,27 @@ class AccountManager(UserAuth):
     """
     handles account operations and general authorization system for a user session
     """
-    
+
     def __init__(self, path: Path) -> None:
         self.path = path
         super().__init__(path)
 
-    def add_entry(self, url: str, user_name: str, hashed_pass: bytes, account_name: str, user_id: int):
+    def add_entry(
+        self,
+        url: str,
+        user_name: str,
+        hashed_pass: bytes,
+        account_name: str,
+        user_id: int,
+    ):
         # check if all characters are valid in user input
         if all([sanitize(url), sanitize(account_name)]):
             # add entry to the database
             add_query = "INSERT INTO accounts (url, user_name, hashedpass, account_name, user_id) VALUES (?,?,?,?,?)"
             with SQLite(self.path) as db:
-                db.cursor.execute(add_query, (url, user_name, hashed_pass, account_name, user_id))
+                db.cursor.execute(
+                    add_query, (url, user_name, hashed_pass, account_name, user_id)
+                )
                 db.connection.commit()
             # update accounts
             self.get_all_account_names(user_id)

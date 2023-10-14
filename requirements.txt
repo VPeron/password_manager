@@ -8,3 +8,4 @@ Pillow==9.4.0
 pyarrow==11.0.0
 pyperclip==1.8.2
 PyYAML==6.0
+black==23.9.1

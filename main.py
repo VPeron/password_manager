@@ -192,6 +192,6 @@ def _delete_entry(session, user: dict):
     else:
         print("account not found")
 
+
 if __name__ == "__main__":
     main()
-
