@@ -27,7 +27,7 @@ class TestMain(unittest.TestCase):
     def test_register(self):
         # invalid passwords and username characters
         self.test_user_2 = 'tes<asd>'
-        self.test_password_2 = 'tes1" or 1+1 §'
+        self.test_password_2 = 'tes1" or 1=1 §'
         authenticator2 = UserAuth(TEST_DB_PATH)
         response = authenticator2.register(self.test_user_2, self.test_password_2)
         self.assertEqual(response, False)
@@ -38,9 +38,10 @@ class TestMain(unittest.TestCase):
 
     def test_add_entry(self):
         url = 'www.test.com'
+        user_name = 'tester'
         hashed_pass = b'bad hash'
         account_name = 'test'
-        self.test_session.add_entry(url, hashed_pass, account_name, self.user['user_id'])
+        self.test_session.add_entry(url, user_name, hashed_pass, account_name, self.user['user_id'])
         self.assertEqual(len(self.test_session.accounts.values()), 1)
 
     def tearDown(self):

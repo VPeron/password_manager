@@ -2,8 +2,9 @@ import secrets
 import string
 import re
 
+from utils.get_config import fetch_config
 
-SPECIAL_CHARACTERS = "!$%&()?{[]}*-._"
+SPECIAL_CHARACTERS = fetch_config(["special_chars"])["special_chars"]
 
 
 def char_pool():

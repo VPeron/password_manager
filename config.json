@@ -1,0 +1,10 @@
+{
+    "dbname": "passwordmanager.db",
+    "logfile_path": "pass_man_logger.log",
+    "special_chars": "@!$%&()?{[]}*-._",
+    "asci_chars": ["@", "#", "S", "%", "?", "*", "+", ";", ":", ",", "."],
+    "asci_size": 25,
+    "asci_img_path": "images/ascii_image.txt",
+    "sha_iters": 480000,
+    "kdf_length": 32
+}

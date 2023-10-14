@@ -5,9 +5,13 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
 
+from utils.get_config import fetch_config
 
-SHA_ITERS = 480_000
-LENGTH = 32
+
+config = fetch_config(["sha_iters", "kdf_length"])
+
+SHA_ITERS = config["sha_iters"]
+LENGTH = config["kdf_length"]
 
 
 def encrypt_data(data: bytes, master_key: bytes, salt_token: bytes):

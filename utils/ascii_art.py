@@ -1,11 +1,13 @@
 import PIL.Image
 import os
 
+from utils.get_config import fetch_config
 
+config = fetch_config(["special_chars", "asci_size", "asci_img_path"])
 
-# ascii pool in descending order of intensity
-ASCII_CHARS = ["@", "#", "S", "%", "?", "*", "+", ";", ":", ",", "."]
-SIZE = 25
+ASCII_CHARS = config["special_chars"]
+SIZE = config["asci_size"]
+IMG_PATH = config["asci_img_path"]
 
 # resize image according to width
 def resize_image(image, new_width=SIZE):
@@ -53,6 +55,6 @@ def gen_new_ascii_art(new_width=SIZE):
         f.write(ascii_img)
 
 def get_ascii_art():
-    with open('images/ascii_image.txt') as img_obj:
+    with open(IMG_PATH) as img_obj:
         ascii_art = img_obj.read()
     print(ascii_art)

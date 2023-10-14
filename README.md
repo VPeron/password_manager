@@ -51,3 +51,7 @@ algorithm from users flow (hash.sha256).
 ## References
 
 - ascii art script: https://github.com/kiteco/python-youtube-code/blob/master/ascii/ascii_convert.py
+
+## TODO
+
+import csv
